@@ -6,12 +6,26 @@ console.log(memoryArray);
 let playButton = document.getElementById("playButton");
 let stage = 1;
 
+const stageArray = [];
+const userArray = [];
+
 playButton.addEventListener("click", game);
 
 async function game() {
-  await allBlink();
-  await successBlink();
-  await failBlink();
+  await noticeGameMessage(allBlink);
+  await noticeGameMessage(successBlink);
+  await noticeGameMessage(failBlink);
+}
+
+// 게임 진행 통지 관련 함수
+
+async function noticeGameMessage(blinkFunction) {
+  const delays = [300, 500, 500];
+
+  for (let i = 0; i < 3; i++) {
+    await new Promise((resolve) => setTimeout(resolve, delays[i]));
+    await blinkFunction();
+  }
 }
 
 function allBlink() {
