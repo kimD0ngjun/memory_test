@@ -31,3 +31,31 @@ body {
   padding: 0.3125rem;
   margin: 0.1875rem;
 }
+
+/* 상단 탭 */
+
+#top {
+  height: 7.5%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* 중단 탭 */
+
+#gameButton {
+  height: 67%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 하단 탭 */
+
+#status {
+  height: 22.5%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
