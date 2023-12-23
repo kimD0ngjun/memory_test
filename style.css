@@ -23,3 +23,11 @@ body {
   align-items: center;
   box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.5);
 }
+
+.tab {
+  width: 97%;
+  background-color: rgb(241, 241, 241);
+  box-shadow: inset 0 0 0.25rem rgba(0, 0, 0, 0.5);
+  padding: 0.3125rem;
+  margin: 0.1875rem;
+}
