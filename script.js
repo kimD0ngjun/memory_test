@@ -11,6 +11,7 @@ playButton.addEventListener("click", game);
 async function game() {
   await allBlink();
   await successBlink();
+  await failBlink();
 }
 
 function allBlink() {
@@ -41,6 +42,21 @@ function successBlink() {
     );
     setTimeout(() => {
       memoryArray.map((el) => el.classList.remove(`success`));
+      resolve();
+    }, 500);
+  });
+}
+
+function failBlink() {
+  return new Promise((resolve) => {
+    console.log("실패 반짝");
+    memoryArray.map((el) =>
+      Number(el.id) % 6 === 1 || Number(el.id) % 4 === 1
+        ? el.classList.add(`fail`)
+        : el
+    );
+    setTimeout(() => {
+      memoryArray.map((el) => el.classList.remove(`fail`));
       resolve();
     }, 500);
   });
