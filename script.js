@@ -12,9 +12,12 @@ const userArray = [];
 playButton.addEventListener("click", game);
 
 async function game() {
-  await noticeGameMessage(allBlink);
-  await noticeGameMessage(successBlink);
-  await noticeGameMessage(failBlink);
+  await noticeGameMessage(blinkAllButton);
+
+  await question(5);
+
+  await noticeGameMessage(blinkSuccess);
+  await noticeGameMessage(blinkFail);
 }
 
 // 게임 진행 통지 관련 함수
@@ -28,7 +31,7 @@ async function noticeGameMessage(blinkFunction) {
   }
 }
 
-function allBlink() {
+function blinkAllButton() {
   return new Promise((resolve) => {
     console.log("반짝");
 
@@ -40,7 +43,7 @@ function allBlink() {
   });
 }
 
-function successBlink() {
+function blinkSuccess() {
   return new Promise((resolve) => {
     console.log("성공 반짝");
 
@@ -61,7 +64,7 @@ function successBlink() {
   });
 }
 
-function failBlink() {
+function blinkFail() {
   return new Promise((resolve) => {
     console.log("실패 반짝");
     memoryArray.map((el) =>
@@ -71,6 +74,32 @@ function failBlink() {
     );
     setTimeout(() => {
       memoryArray.map((el) => el.classList.remove(`fail`));
+      resolve();
+    }, 500);
+  });
+}
+
+// 게임 스테이지 함수
+async function question(stage) {
+  for (let i = 0; i < stage; i++) {
+    await blinkQuestion();
+    if (i < stage - 1) {
+      await new Promise((resolve) => setTimeout(resolve, 150));
+    }
+  }
+}
+
+function blinkQuestion() {
+  return new Promise((resolve) => {
+    let randomIndex = Math.floor(Math.random() * memoryButton.length);
+    const randomButton = memoryArray[randomIndex];
+
+    stageArray.push(randomButton);
+    console.log(stageArray);
+
+    randomButton.classList.add("message");
+    setTimeout(() => {
+      randomButton.classList.remove("message");
       resolve();
     }, 500);
   });
