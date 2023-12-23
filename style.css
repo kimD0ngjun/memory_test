@@ -103,6 +103,42 @@ body {
   );
 }
 
+.memoryButton.message {
+  background-color: skyblue;
+  cursor: grabbing;
+  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176); /* -3px / 16px = -0.1875rem */
+  transform: scale(0.99) translate(0.1875rem, 0.1875rem); /* 3px / 16px = 0.1875rem */
+  background-image: radial-gradient(
+    ellipse at 80% 80%,
+    rgba(255, 255, 255, 0.812) 0%,
+    transparent 70%
+  );
+}
+
+.memoryButton.success {
+  background-color: rgb(84, 223, 163);
+  cursor: grabbing;
+  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176); /* -3px / 16px = -0.1875rem */
+  transform: scale(0.99) translate(0.1875rem, 0.1875rem); /* 3px / 16px = 0.1875rem */
+  background-image: radial-gradient(
+    ellipse at 80% 80%,
+    rgba(255, 255, 255, 0.812) 0%,
+    transparent 70%
+  );
+}
+
+.memoryButton.fail {
+  background-color: rgb(223, 96, 84);
+  cursor: grabbing;
+  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176); /* -3px / 16px = -0.1875rem */
+  transform: scale(0.99) translate(0.1875rem, 0.1875rem); /* 3px / 16px = 0.1875rem */
+  background-image: radial-gradient(
+    ellipse at 80% 80%,
+    rgba(255, 255, 255, 0.812) 0%,
+    transparent 70%
+  );
+}
+
 /* 하단 탭 */
 
 #status {
