@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 기본 픽셀 : 16px */
+
+.game-container {
+  border: 0.5rem white;
+  background-color: rgb(221, 221, 221);
+  width: 31.25rem;
+  height: 40.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.5);
+}
