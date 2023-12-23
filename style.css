@@ -147,3 +147,28 @@ body {
   justify-content: space-around;
   align-items: center;
 }
+
+.status {
+  width: 8.75rem;
+  height: 4.375rem;
+  border: 0.03125rem solid white;
+  box-shadow: inset 0 0 0.125rem rgba(0, 0, 0, 0.5); /* 2px / 16px = 0.125rem */
+  background-color: rgb(221, 221, 221);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.system {
+  margin: 0.25rem 0;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.board {
+  margin: 0.1rem 0;
+  text-align: center;
+  font-size: 1.5rem;
+}
