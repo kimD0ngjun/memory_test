@@ -7,12 +7,13 @@ let answerIndex = 0;
 let click = true;
 
 let questionArray = [];
+let repeatArray = [];
 let answerArray = [];
 
 playButton.addEventListener("click", game);
 
 async function game() {
-  await stagePlay(4);
+  await stagePlay(3);
 }
 
 async function stagePlay(stage) {
@@ -36,7 +37,7 @@ async function noticeGameMessage(blinkFunction) {
       console.log(click);
       resolve();
     }, 1300)
-  );
+  ); // 이 부분은 실패 시 문제내용 재 제시, 성공 시 다음 단계 문제 제시 로직 추가하면 삭제할 것
 }
 
 function blinkAllButton() {
@@ -99,12 +100,34 @@ async function question(stage) {
   );
 }
 
+async function repeatQuestion() {
+  click = false;
+  for (let i = 0; i < repeatArray.length; i++) {
+    repeatArray[i].classList.add("message");
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        repeatArray[i].classList.remove("message");
+        resolve();
+      }, 500);
+    });
+    await new Promise((resolve) => setTimeout(resolve, 150));
+  }
+  await new Promise((resolve) =>
+    setTimeout(() => {
+      click = true;
+      console.log(click);
+      resolve();
+    }, repeatArray.length * 150)
+  );
+}
+
 function blinkQuestion() {
   return new Promise((resolve) => {
     let randomIndex = Math.floor(Math.random() * memoryButton.length);
     const randomButton = memoryArray[randomIndex];
 
     questionArray.push(Number(randomButton.id));
+    repeatArray.push(randomButton);
     console.log(questionArray);
 
     randomButton.classList.add("message");
@@ -136,10 +159,11 @@ function handleButtonClick(event) {
   }
 }
 
-function checkAnswer() {
+async function checkAnswer() {
   if (answerIndex < questionArray.length) {
     if (answerArray[answerIndex] !== questionArray[answerIndex]) {
-      noticeGameMessage(blinkFail);
+      await noticeGameMessage(blinkFail);
+      await repeatQuestion();
       answerArray = [];
       answerIndex = 0;
       return;
@@ -161,6 +185,7 @@ function checkAnswer() {
     if (isCorrect) {
       noticeGameMessage(blinkSuccess);
       questionArray = [];
+      repeatArray = [];
       answerArray = [];
       answerIndex = 0;
       return;
