@@ -70,7 +70,7 @@ function blinkFail() {
   });
 }
 
-// 게임 스테이지 함수
+// 스테이지 문제 제출 함수
 
 async function question(stage) {
   for (let i = 0; i < stage - 1; i++) {
@@ -89,15 +89,16 @@ function blinkQuestion() {
     randomButton.classList.add("message");
     setTimeout(() => {
       randomButton.classList.remove("message");
-      resolve();
+      resolve(randomButton); // 반환값 지정
     }, 650);
   });
 }
 
-//*
+// 스테이지 정답 제출 함수
 
 async function answer() {
   const questionButtonNumber = await blinkQuestion();
+  console.log(questionButtonNumber);
 
   for (let i = 0; i < memoryArray.length; i++) {
     memoryArray[i].addEventListener("click", (event) =>
@@ -109,7 +110,7 @@ async function answer() {
 function handleUserButton(event, randomButton) {
   const userClickButton = event.target;
 
-  if (Number(userClickButton.id) !== Number(randomButton.id)) {
+  if (userClickButton.id !== randomButton.id) {
     console.log("실패");
     noticeGameMessage(blinkFail);
   }
