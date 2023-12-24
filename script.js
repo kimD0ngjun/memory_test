@@ -3,7 +3,8 @@ const memoryArray = Array.from(memoryButton); // 유사배열객체 배열화
 
 let playButton = document.getElementById("playButton");
 let stage = 1;
-let sequenceIndex = 0;
+let answerIndex = 0;
+let click = true;
 
 let questionArray = [];
 let answerArray = [];
@@ -11,7 +12,11 @@ let answerArray = [];
 playButton.addEventListener("click", game);
 
 async function game() {
-  await question(3);
+  await stagePlay(4);
+}
+
+async function stagePlay(stage) {
+  await question(stage);
   answer();
 }
 
@@ -19,11 +24,19 @@ async function game() {
 
 async function noticeGameMessage(blinkFunction) {
   const delays = [300, 500, 500];
+  click = false;
 
   for (let i = 0; i < 3; i++) {
     await new Promise((resolve) => setTimeout(resolve, delays[i]));
     await blinkFunction();
   }
+  await new Promise((resolve) =>
+    setTimeout(() => {
+      click = true;
+      console.log(click);
+      resolve();
+    }, 1300)
+  );
 }
 
 function blinkAllButton() {
@@ -72,10 +85,18 @@ function blinkFail() {
 // 스테이지 문제 제출 함수
 
 async function question(stage) {
+  click = false;
   for (let i = 0; i < stage; i++) {
     await blinkQuestion();
     await new Promise((resolve) => setTimeout(resolve, 250));
   }
+  await new Promise((resolve) =>
+    setTimeout(() => {
+      click = true;
+      console.log(click);
+      resolve();
+    }, stage * 150)
+  );
 }
 
 function blinkQuestion() {
@@ -97,34 +118,37 @@ function blinkQuestion() {
 // 스테이지 정답 제출 함수
 
 function answer() {
+  click = true;
   for (let i = 0; i < memoryArray.length; i++) {
     memoryArray[i].addEventListener("click", handleButtonClick);
   }
 }
 
 function handleButtonClick(event) {
-  const clickedButtonId = Number(event.target.id);
-  answerArray.push(clickedButtonId);
+  if (click) {
+    const clickedButtonId = Number(event.target.id);
+    answerArray.push(clickedButtonId);
 
-  console.log("Clicked button ID:", clickedButtonId);
-  console.log(answerArray);
+    console.log("Clicked button ID:", clickedButtonId);
+    console.log(answerArray);
 
-  checkAnswer();
+    checkAnswer();
+  }
 }
 
 function checkAnswer() {
-  if (sequenceIndex < questionArray.length) {
-    if (answerArray[sequenceIndex] !== questionArray[sequenceIndex]) {
+  if (answerIndex < questionArray.length) {
+    if (answerArray[answerIndex] !== questionArray[answerIndex]) {
       noticeGameMessage(blinkFail);
       answerArray = [];
-      sequenceIndex = 0;
+      answerIndex = 0;
       return;
     }
 
-    sequenceIndex++;
+    answerIndex++;
   }
 
-  if (sequenceIndex === questionArray.length) {
+  if (answerIndex === questionArray.length) {
     let isCorrect = true;
 
     for (let i = 0; i < answerArray.length; i++) {
@@ -138,7 +162,7 @@ function checkAnswer() {
       noticeGameMessage(blinkSuccess);
       questionArray = [];
       answerArray = [];
-      sequenceIndex = 0;
+      answerIndex = 0;
       return;
     }
   }
