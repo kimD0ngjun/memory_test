@@ -3,6 +3,7 @@ const memoryArray = Array.from(memoryButton); // 유사배열객체 배열화
 
 let playButton = document.getElementById("playButton");
 let stage = 1;
+let sequenceIndex = 0;
 
 const questionArray = [];
 const answerArray = [];
@@ -13,7 +14,7 @@ async function game() {
   //   await noticeGameMessage(blinkAllButton);
 
   await question(2);
-  await answer();
+  // await answer();
 }
 
 // 게임 진행 통지 관련 함수
@@ -104,12 +105,12 @@ async function answer() {
   }
 }
 
-function handleUserButton(event, randomButton, index) {
+function handleUserButton(event, randomButton, sequenceIndex) {
   const userClickButton = event.target;
   console.log(userClickButton);
   console.log(randomButton);
 
-  if (Number(userClickButton.id) !== randomButton[index]) {
+  if (Number(userClickButton.id) !== randomButton[sequenceIndex]) {
     console.log("실패");
     noticeGameMessage(blinkFail);
   }
@@ -117,5 +118,21 @@ function handleUserButton(event, randomButton, index) {
 
 function handleButtonClick(clickedButtonId) {
   const buttonNumber = Number(clickedButtonId);
+  answerArray.push(buttonNumber);
+
   console.log("Clicked button ID:", buttonNumber);
+  console.log(answerArray);
+
+  checkAnswer();
+}
+
+function checkAnswer() {
+  if (sequenceIndex < questionArray.length) {
+    if (answerArray[sequenceIndex] !== questionArray[sequenceIndex]) {
+      noticeGameMessage(blinkFail);
+      console.log("실패");
+    }
+
+    sequenceIndex++;
+  }
 }
