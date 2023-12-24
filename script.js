@@ -12,7 +12,7 @@ playButton.addEventListener("click", game);
 async function game() {
   //   await noticeGameMessage(blinkAllButton);
 
-  await question(5);
+  await question(2);
   await answer();
 }
 
@@ -73,7 +73,7 @@ function blinkFail() {
 // 스테이지 문제 제출 함수
 
 async function question(stage) {
-  for (let i = 0; i < stage - 1; i++) {
+  for (let i = 0; i < stage; i++) {
     await blinkQuestion();
   }
 }
@@ -97,21 +97,25 @@ function blinkQuestion() {
 // 스테이지 정답 제출 함수
 
 async function answer() {
-  const questionButtonNumber = await blinkQuestion();
-  console.log(questionButtonNumber);
-
   for (let i = 0; i < memoryArray.length; i++) {
     memoryArray[i].addEventListener("click", (event) =>
-      handleUserButton(event, questionButtonNumber)
+      handleUserButton(event, questionArray, i)
     );
   }
 }
 
-function handleUserButton(event, randomButton) {
+function handleUserButton(event, randomButton, index) {
   const userClickButton = event.target;
+  console.log(userClickButton);
+  console.log(randomButton);
 
-  if (userClickButton.id !== randomButton.id) {
+  if (Number(userClickButton.id) !== randomButton[index]) {
     console.log("실패");
     noticeGameMessage(blinkFail);
   }
+}
+
+function handleButtonClick(clickedButtonId) {
+  const buttonNumber = Number(clickedButtonId);
+  console.log("Clicked button ID:", buttonNumber);
 }
