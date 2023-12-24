@@ -123,4 +123,23 @@ function checkAnswer() {
 
     sequenceIndex++;
   }
+
+  if (sequenceIndex === questionArray.length) {
+    let isCorrect = true;
+
+    for (let i = 0; i < answerArray.length; i++) {
+      if (answerArray[i] !== questionArray[i]) {
+        isCorrect = false;
+        break;
+      }
+    }
+
+    if (isCorrect) {
+      noticeGameMessage(blinkSuccess);
+      questionArray = [];
+      answerArray = [];
+      sequenceIndex = 0;
+      return;
+    }
+  }
 }
