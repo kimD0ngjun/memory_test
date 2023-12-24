@@ -5,16 +5,14 @@ let playButton = document.getElementById("playButton");
 let stage = 1;
 let sequenceIndex = 0;
 
-const questionArray = [];
-const answerArray = [];
+let questionArray = [];
+let answerArray = [];
 
 playButton.addEventListener("click", game);
 
 async function game() {
-  //   await noticeGameMessage(blinkAllButton);
-
-  await question(2);
-  // await answer();
+  await question(3);
+  answer();
 }
 
 // 게임 진행 통지 관련 함수
@@ -76,6 +74,7 @@ function blinkFail() {
 async function question(stage) {
   for (let i = 0; i < stage; i++) {
     await blinkQuestion();
+    await new Promise((resolve) => setTimeout(resolve, 250));
   }
 }
 
@@ -97,30 +96,17 @@ function blinkQuestion() {
 
 // 스테이지 정답 제출 함수
 
-async function answer() {
+function answer() {
   for (let i = 0; i < memoryArray.length; i++) {
-    memoryArray[i].addEventListener("click", (event) =>
-      handleUserButton(event, questionArray, i)
-    );
+    memoryArray[i].addEventListener("click", handleButtonClick);
   }
 }
 
-function handleUserButton(event, randomButton, sequenceIndex) {
-  const userClickButton = event.target;
-  console.log(userClickButton);
-  console.log(randomButton);
+function handleButtonClick(event) {
+  const clickedButtonId = Number(event.target.id);
+  answerArray.push(clickedButtonId);
 
-  if (Number(userClickButton.id) !== randomButton[sequenceIndex]) {
-    console.log("실패");
-    noticeGameMessage(blinkFail);
-  }
-}
-
-function handleButtonClick(clickedButtonId) {
-  const buttonNumber = Number(clickedButtonId);
-  answerArray.push(buttonNumber);
-
-  console.log("Clicked button ID:", buttonNumber);
+  console.log("Clicked button ID:", clickedButtonId);
   console.log(answerArray);
 
   checkAnswer();
@@ -130,7 +116,9 @@ function checkAnswer() {
   if (sequenceIndex < questionArray.length) {
     if (answerArray[sequenceIndex] !== questionArray[sequenceIndex]) {
       noticeGameMessage(blinkFail);
-      console.log("실패");
+      answerArray = [];
+      sequenceIndex = 0;
+      return;
     }
 
     sequenceIndex++;
