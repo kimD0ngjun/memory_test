@@ -13,6 +13,7 @@ let answerArray = [];
 playButton.addEventListener("click", game);
 
 async function game() {
+  await noticeGameMessage(blinkAllButton);
   await stagePlay(1);
 }
 
@@ -180,7 +181,7 @@ async function checkAnswer() {
         repeatArray = [];
         answerArray = [];
         answerIndex = 0;
-        stage = stage + 1;
+        stage += 1;
         await stagePlay(stage);
       }
     }
