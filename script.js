@@ -13,7 +13,8 @@ let answerArray = [];
 playButton.addEventListener("click", game);
 
 async function game() {
-  await noticeGameMessage(blinkAllButton);
+  await resetGame();
+  await blinkGameProcess(blinkAllButton);
   await stagePlay(1);
 }
 
@@ -24,7 +25,7 @@ async function stagePlay(stage) {
 
 // 게임 진행 통지 관련 함수
 
-async function noticeGameMessage(blinkFunction) {
+async function blinkGameProcess(blinkFunction) {
   const delays = [300, 500, 500];
   click = false;
 
@@ -82,6 +83,23 @@ function blinkFail() {
       resolve();
     }, 500);
   });
+}
+
+// 진행 과정 관련 함수
+
+async function resetGame() {
+  click = true;
+  stage = 1;
+  answerIndex = 0;
+  questionArray = [];
+  repeatArray = [];
+  answerArray = [];
+
+  memoryArray.map((el) => el.classList.remove("message", "success", "fail"));
+
+  for (let i = 0; i < memoryArray.length; i++) {
+    memoryArray[i].removeEventListener("click", handleButtonClick);
+  }
 }
 
 // 스테이지 문제 제출 함수
@@ -163,7 +181,7 @@ function handleButtonClick(event) {
 async function checkAnswer() {
   if (answerIndex < questionArray.length) {
     if (answerArray[answerIndex] !== questionArray[answerIndex]) {
-      await noticeGameMessage(blinkFail);
+      await blinkGameProcess(blinkFail);
       await repeatQuestion();
       answerArray = [];
       answerIndex = 0;
@@ -176,7 +194,7 @@ async function checkAnswer() {
   if (answerIndex === questionArray.length) {
     for (let i = 0; i < answerArray.length; i++) {
       if (answerArray[i] === questionArray[i]) {
-        await noticeGameMessage(blinkSuccess);
+        await blinkGameProcess(blinkSuccess);
         questionArray = [];
         repeatArray = [];
         answerArray = [];
