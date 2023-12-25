@@ -13,7 +13,7 @@ let answerArray = [];
 playButton.addEventListener("click", game);
 
 async function game() {
-  await stagePlay(3);
+  await stagePlay(1);
 }
 
 async function stagePlay(stage) {
@@ -173,22 +173,16 @@ async function checkAnswer() {
   }
 
   if (answerIndex === questionArray.length) {
-    let isCorrect = true;
-
     for (let i = 0; i < answerArray.length; i++) {
-      if (answerArray[i] !== questionArray[i]) {
-        isCorrect = false;
-        break;
+      if (answerArray[i] === questionArray[i]) {
+        await noticeGameMessage(blinkSuccess);
+        questionArray = [];
+        repeatArray = [];
+        answerArray = [];
+        answerIndex = 0;
+        stage = stage + 1;
+        await stagePlay(stage);
       }
-    }
-
-    if (isCorrect) {
-      noticeGameMessage(blinkSuccess);
-      questionArray = [];
-      repeatArray = [];
-      answerArray = [];
-      answerIndex = 0;
-      return;
     }
   }
 }
