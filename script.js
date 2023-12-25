@@ -2,6 +2,7 @@ let memoryButton = document.getElementsByClassName("memoryButton");
 const memoryArray = Array.from(memoryButton); // 유사배열객체 배열화
 
 let playButton = document.getElementById("playButton");
+let play = false;
 let stage = 1;
 let answerIndex = 0;
 let click = true;
@@ -13,7 +14,10 @@ let answerArray = [];
 playButton.addEventListener("click", game);
 
 async function game() {
-  await resetGame();
+  if (play) {
+    resetGame();
+  }
+  play = !play;
   await blinkGameProcess(blinkAllButton);
   await stagePlay(1);
 }
@@ -88,18 +92,11 @@ function blinkFail() {
 // 진행 과정 관련 함수
 
 async function resetGame() {
-  click = true;
-  stage = 1;
-  answerIndex = 0;
-  questionArray = [];
-  repeatArray = [];
-  answerArray = [];
-
-  memoryArray.map((el) => el.classList.remove("message", "success", "fail"));
-
-  for (let i = 0; i < memoryArray.length; i++) {
-    memoryArray[i].removeEventListener("click", handleButtonClick);
-  }
+  alert(`
+    지금까지 진행하던 내용을 전부 잃게 됩니다!
+    게임을 재시작합니다.
+  `);
+  location.reload();
 }
 
 // 스테이지 문제 제출 함수
