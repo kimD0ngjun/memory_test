@@ -7,6 +7,9 @@ let stage = 1;
 let answerIndex = 0;
 let click = true;
 
+let life = document.querySelector("#lifeCount").textContent;
+let lifeCount = 3;
+
 let questionArray = [];
 let repeatArray = [];
 let answerArray = [];
@@ -18,6 +21,7 @@ async function game() {
     resetGame();
   }
   play = !play;
+  playButton.innerText = "REPLAY";
   await blinkGameProcess(blinkAllButton);
   await stagePlay(1);
 }
@@ -92,10 +96,7 @@ function blinkFail() {
 // 진행 과정 관련 함수
 
 async function resetGame() {
-  alert(`
-    지금까지 진행하던 내용을 전부 잃게 됩니다!
-    게임을 재시작합니다.
-  `);
+  alert(`진행 내용을 초기화하고 게임을 재시작합니다.`);
   location.reload();
 }
 
@@ -178,7 +179,16 @@ function handleButtonClick(event) {
 async function checkAnswer() {
   if (answerIndex < questionArray.length) {
     if (answerArray[answerIndex] !== questionArray[answerIndex]) {
+      lifeCount--;
+      console.log(lifeCount);
       await blinkGameProcess(blinkFail);
+      if (lifeCount === 0) {
+        alert(`
+          Game Over
+          최종 진행 단계는 ${stage} 단계입니다
+        `);
+        location.reload();
+      }
       await repeatQuestion();
       answerArray = [];
       answerIndex = 0;
