@@ -7,7 +7,7 @@ let stage = 1;
 let answerIndex = 0;
 let click = true;
 
-let life = document.querySelector("#lifeCount").textContent;
+let life = document.getElementById("lifeCount");
 let lifeCount = 3;
 
 let questionArray = [];
@@ -180,8 +180,13 @@ async function checkAnswer() {
   if (answerIndex < questionArray.length) {
     if (answerArray[answerIndex] !== questionArray[answerIndex]) {
       lifeCount--;
+      if (lifeCount === 0) {
+        life.innerText = " ";
+      }
+      life.innerText = "❤️".repeat(lifeCount);
       console.log(lifeCount);
       await blinkGameProcess(blinkFail);
+
       if (lifeCount === 0) {
         alert(`
           Game Over
@@ -189,6 +194,8 @@ async function checkAnswer() {
         `);
         location.reload();
       }
+
+      await new Promise((resolve) => setTimeout(resolve, 150));
       await repeatQuestion();
       answerArray = [];
       answerIndex = 0;
