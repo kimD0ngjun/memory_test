@@ -109,7 +109,7 @@ async function countTime() {
   console.log(limitTime);
 
   let intervalId = setInterval(function () {
-    if (limitTime.innerText === 0) {
+    if (parseInt(limitTime.innerText) === 0) {
       clearInterval(intervalId);
     } else {
       limitTime.innerText--;
