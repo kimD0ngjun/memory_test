@@ -10,6 +10,8 @@ let click = true;
 let life = document.getElementById("lifeCount");
 let lifeCount = 3;
 
+let limitTime = document.getElementById("timeCount");
+
 let questionArray = [];
 let repeatArray = [];
 let answerArray = [];
@@ -99,6 +101,8 @@ async function resetGame() {
   alert(`진행 내용을 초기화하고 게임을 재시작합니다.`);
   location.reload();
 }
+
+function countTime() {}
 
 // 스테이지 문제 제출 함수
 
