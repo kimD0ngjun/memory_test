@@ -30,6 +30,7 @@ async function game() {
 
 async function stagePlay(stage) {
   await question(stage);
+  countTime(stage);
   answer();
 }
 
@@ -102,17 +103,15 @@ async function resetGame() {
   location.reload();
 }
 
-async function countTime() {
-  let startTime = questionArray.length + 5;
+async function countTime(stage) {
+  let startTime = stage + 5;
   limitTime.innerText = startTime;
-  console.log(startTime);
-  console.log(limitTime);
 
   await new Promise((resolve) => {
     let intervalId = setInterval(function () {
       if (
         parseInt(limitTime.innerText) === 0 ||
-        JSON.stringify(questionArray) === JSON.stringify(answerArray)
+        questionArray.length === answerArray.length
       ) {
         clearInterval(intervalId);
         resolve(); // Promise를 해결하여 다음 단계로 진행
@@ -134,7 +133,7 @@ async function question(stage) {
   await new Promise((resolve) =>
     setTimeout(() => {
       click = true;
-      console.log(click);
+      console.log("질문 출제 확인");
       resolve();
     }, stage * 150)
   );
@@ -180,11 +179,18 @@ function blinkQuestion() {
 
 // 스테이지 정답 제출 함수
 
-function answer() {
+async function answer() {
+  console.log("정답 함수 작동");
   click = true;
   for (let i = 0; i < memoryArray.length; i++) {
     memoryArray[i].addEventListener("click", handleButtonClick);
   }
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+      checkTimeCount();
+    }, questionArray.length * 1000 + 5000);
+  });
 }
 
 function handleButtonClick(event) {
@@ -200,6 +206,7 @@ function handleButtonClick(event) {
 }
 
 async function checkAnswer() {
+  console.log("정답 검증 작동");
   if (answerIndex < questionArray.length) {
     if (answerArray[answerIndex] !== questionArray[answerIndex]) {
       lifeCount--;
@@ -207,7 +214,6 @@ async function checkAnswer() {
         life.innerText = " ";
       }
       life.innerText = "❤️".repeat(lifeCount);
-      console.log(lifeCount);
       await blinkGameProcess(blinkFail);
 
       if (lifeCount === 0) {
@@ -220,8 +226,11 @@ async function checkAnswer() {
 
       await new Promise((resolve) => setTimeout(resolve, 150));
       await repeatQuestion();
+      limitTime.innerText = `${questionArray.length + 5}`;
       answerArray = [];
       answerIndex = 0;
+      countTime(stage);
+      answer();
       return;
     }
 
@@ -229,16 +238,47 @@ async function checkAnswer() {
   }
 
   if (answerIndex === questionArray.length) {
-    for (let i = 0; i < answerArray.length; i++) {
-      if (answerArray[i] === questionArray[i]) {
-        await blinkGameProcess(blinkSuccess);
-        questionArray = [];
-        repeatArray = [];
-        answerArray = [];
-        answerIndex = 0;
-        stage += 1;
-        await stagePlay(stage);
-      }
+    if (JSON.stringify(questionArray) === JSON.stringify(answerArray)) {
+      await blinkGameProcess(blinkSuccess);
+      questionArray = [];
+      repeatArray = [];
+      answerArray = [];
+      answerIndex = 0;
+      stage++;
+      stagePlay(stage);
     }
+  }
+}
+
+async function checkTimeCount() {
+  console.log("시간 검증 작동");
+  if (answerIndex < questionArray.length) {
+    if (limitTime.textContent === "0") {
+      lifeCount--;
+      if (lifeCount === 0) {
+        life.innerText = " ";
+      }
+      life.innerText = "❤️".repeat(lifeCount);
+      await blinkGameProcess(blinkFail);
+
+      if (lifeCount === 0) {
+        alert(`
+          Game Over
+          최종 진행 단계는 ${stage} 단계입니다
+        `);
+        location.reload();
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      await repeatQuestion();
+      limitTime.innerText = `${questionArray.length + 5}`;
+      answerArray = [];
+      answerIndex = 0;
+      countTime(stage);
+      answer();
+      return;
+    }
+
+    answerIndex++;
   }
 }
