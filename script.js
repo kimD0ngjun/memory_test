@@ -102,7 +102,20 @@ async function resetGame() {
   location.reload();
 }
 
-function countTime() {}
+async function countTime() {
+  let startTime = questionArray.length + 5;
+  limitTime.innerText = startTime;
+  console.log(startTime);
+  console.log(limitTime);
+
+  let intervalId = setInterval(function () {
+    if (limitTime.innerText === 0) {
+      clearInterval(intervalId);
+    } else {
+      limitTime.innerText--;
+    }
+  }, 1000);
+}
 
 // 스테이지 문제 제출 함수
 
@@ -119,6 +132,7 @@ async function question(stage) {
       resolve();
     }, stage * 150)
   );
+  await countTime();
 }
 
 async function repeatQuestion() {
