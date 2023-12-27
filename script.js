@@ -110,7 +110,10 @@ async function countTime() {
 
   await new Promise((resolve) => {
     let intervalId = setInterval(function () {
-      if (parseInt(limitTime.innerText) === 0) {
+      if (
+        parseInt(limitTime.innerText) === 0 ||
+        JSON.stringify(questionArray) === JSON.stringify(answerArray)
+      ) {
         clearInterval(intervalId);
         resolve(); // Promise를 해결하여 다음 단계로 진행
       } else {
@@ -177,10 +180,8 @@ function blinkQuestion() {
 
 // 스테이지 정답 제출 함수
 
-async function answer() {
+function answer() {
   click = true;
-  await countTime();
-  await checkCountTime();
   for (let i = 0; i < memoryArray.length; i++) {
     memoryArray[i].addEventListener("click", handleButtonClick);
   }
@@ -201,15 +202,13 @@ function handleButtonClick(event) {
 async function checkAnswer() {
   if (answerIndex < questionArray.length) {
     if (answerArray[answerIndex] !== questionArray[answerIndex]) {
-      console.log(limitTime.innerText);
       lifeCount--;
       if (lifeCount === 0) {
         life.innerText = " ";
       }
       life.innerText = "❤️".repeat(lifeCount);
+      console.log(lifeCount);
       await blinkGameProcess(blinkFail);
-
-      limitTime.innerText = questionArray.length + 5;
 
       if (lifeCount === 0) {
         alert(`
@@ -223,7 +222,7 @@ async function checkAnswer() {
       await repeatQuestion();
       answerArray = [];
       answerIndex = 0;
-      answer();
+      return;
     }
 
     answerIndex++;
@@ -242,34 +241,4 @@ async function checkAnswer() {
       }
     }
   }
-}
-
-async function checkCountTime() {
-  if (limitTime.innerText === "0") {
-    console.log(limitTime.innerText);
-    lifeCount--;
-    if (lifeCount === 0) {
-      life.innerText = " ";
-    }
-    life.innerText = "❤️".repeat(lifeCount);
-    await blinkGameProcess(blinkFail);
-
-    limitTime.innerText = questionArray.length + 5;
-
-    if (lifeCount === 0) {
-      alert(`
-        Game Over
-        최종 진행 단계는 ${stage} 단계입니다
-      `);
-      location.reload();
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, 150));
-    await repeatQuestion();
-    answerArray = [];
-    answerIndex = 0;
-    answer();
-  }
-
-  answerIndex++;
 }
