@@ -104,6 +104,7 @@ async function resetGame() {
 }
 
 async function countTime(stage) {
+  console.log("시간 카운팅");
   let startTime = stage + 5;
   limitTime.innerText = startTime;
 
@@ -111,9 +112,13 @@ async function countTime(stage) {
     let intervalId = setInterval(function () {
       if (
         parseInt(limitTime.innerText) === 0 ||
-        questionArray.length === answerArray.length
+        (questionArray.length === answerArray.length &&
+          JSON.stringify(questionArray) !== JSON.stringify(answerArray)) ||
+        JSON.stringify(questionArray) === JSON.stringify(answerArray)
+        // questionArray.length !== answerArray.length
       ) {
-        clearInterval(intervalId);
+        clearInterval(intervalId); // 오답(길이가 다른)일 때 시간이 안 멈추고 있음
+        console.log("시간 멈춤");
         resolve(); // Promise를 해결하여 다음 단계로 진행
       } else {
         limitTime.innerText--;
@@ -184,13 +189,8 @@ async function answer() {
   click = true;
   for (let i = 0; i < memoryArray.length; i++) {
     memoryArray[i].addEventListener("click", handleButtonClick);
+    memoryArray[i].addEventListener("click", compareArrays);
   }
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-      checkTimeCount();
-    }, questionArray.length * 1000 + 5000);
-  });
 }
 
 function handleButtonClick(event) {
@@ -205,10 +205,25 @@ function handleButtonClick(event) {
   }
 }
 
+// 실시간 정답 검증을 위한 배열 비교
+function compareArrays() {
+  let wrongAnswer = false;
+
+  for (let i = 0; i < answerArray.length; i++) {
+    if (answerArray[i] !== questionArray[i]) {
+      wrongAnswer = true;
+      console.log("오답검증 : " + wrongAnswer);
+      return wrongAnswer;
+    }
+  }
+  console.log("오답검증 : " + wrongAnswer);
+  return wrongAnswer;
+}
+
 async function checkAnswer() {
   console.log("정답 검증 작동");
   if (answerIndex < questionArray.length) {
-    if (answerArray[answerIndex] !== questionArray[answerIndex]) {
+    if (compareArrays()) {
       lifeCount--;
       if (lifeCount === 0) {
         life.innerText = " ";
@@ -247,38 +262,5 @@ async function checkAnswer() {
       stage++;
       stagePlay(stage);
     }
-  }
-}
-
-async function checkTimeCount() {
-  console.log("시간 검증 작동");
-  if (answerIndex < questionArray.length) {
-    if (limitTime.textContent === "0") {
-      lifeCount--;
-      if (lifeCount === 0) {
-        life.innerText = " ";
-      }
-      life.innerText = "❤️".repeat(lifeCount);
-      await blinkGameProcess(blinkFail);
-
-      if (lifeCount === 0) {
-        alert(`
-          Game Over
-          최종 진행 단계는 ${stage} 단계입니다
-        `);
-        location.reload();
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 150));
-      await repeatQuestion();
-      limitTime.innerText = `${questionArray.length + 5}`;
-      answerArray = [];
-      answerIndex = 0;
-      countTime(stage);
-      answer();
-      return;
-    }
-
-    answerIndex++;
   }
 }
