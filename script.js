@@ -114,7 +114,6 @@ async function countTime(stage) {
         parseInt(limitTime.innerText) === 0 ||
         compareArrays() ||
         JSON.stringify(questionArray) === JSON.stringify(answerArray)
-        // questionArray.length !== answerArray.length
       ) {
         clearInterval(intervalId); // 오답(길이가 다른)일 때 시간이 안 멈추고 있음
         console.log("시간 멈춤");
@@ -190,6 +189,32 @@ async function answer() {
     memoryArray[i].addEventListener("click", handleButtonClick);
     memoryArray[i].addEventListener("click", compareArrays);
   }
+  setTimeout(async () => {
+    if (answerArray.length !== questionArray.length) {
+      lifeCount--;
+      if (lifeCount === 0) {
+        life.innerText = " ";
+      }
+      life.innerText = "❤️".repeat(lifeCount);
+      await blinkGameProcess(blinkFail);
+
+      if (lifeCount === 0) {
+        alert(`
+          Game Over
+          최종 진행 단계는 ${stage} 단계입니다
+        `);
+        location.reload();
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      await repeatQuestion();
+      limitTime.innerText = `${questionArray.length + 5}`;
+      answerArray = [];
+      answerIndex = 0;
+      countTime(stage);
+      answer();
+    }
+  }, stage * 1000 + 5000);
 }
 
 function handleButtonClick(event) {
