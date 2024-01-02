@@ -2,6 +2,7 @@ let memoryButton = document.getElementsByClassName("memoryButton");
 const memoryArray = Array.from(memoryButton); // 유사배열객체 배열화
 
 let playButton = document.getElementById("playButton");
+let score = document.getElementById("scoreCount");
 let play = false;
 let stage = 1;
 let answerIndex = 0;
@@ -67,6 +68,7 @@ function blinkAllButton() {
 
 function blinkSuccess() {
   correctAnswer = true;
+  wrongAnswer = false;
   return new Promise((resolve) => {
     memoryArray.map((el) =>
       (Number(el.id) > 1 && Number(el.id) < 5) ||
@@ -86,6 +88,8 @@ function blinkSuccess() {
 }
 
 function blinkFail() {
+  correctAnswer = false;
+  wrongAnswer = true;
   return new Promise((resolve) => {
     memoryArray.map((el) =>
       Number(el.id) % 6 === 1 || Number(el.id) % 4 === 1
@@ -195,7 +199,10 @@ async function answer() {
     memoryArray[i].addEventListener("click", compareArrays);
   }
   setTimeout(async () => {
-    if (!correctAnswer && answerArray.length !== questionArray.length) {
+    if (
+      correctAnswer === false &&
+      answerArray.length !== questionArray.length
+    ) {
       console.log("제한시간 초과");
       lifeCount--;
       click = false;
