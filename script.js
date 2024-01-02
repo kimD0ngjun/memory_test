@@ -30,7 +30,7 @@ async function game() {
 
 async function stagePlay(stage) {
   await question(stage);
-  countTime(stage);
+  gradeInCountTime(stage);
   answer();
 }
 
@@ -103,7 +103,7 @@ async function resetGame() {
   location.reload();
 }
 
-async function countTime(stage) {
+async function gradeInCountTime(stage) {
   console.log("시간 카운팅");
   let startTime = stage + 5;
   limitTime.innerText = startTime;
@@ -189,32 +189,6 @@ async function answer() {
     memoryArray[i].addEventListener("click", handleButtonClick);
     memoryArray[i].addEventListener("click", compareArrays);
   }
-  setTimeout(async () => {
-    if (answerArray.length !== questionArray.length) {
-      lifeCount--;
-      if (lifeCount === 0) {
-        life.innerText = " ";
-      }
-      life.innerText = "❤️".repeat(lifeCount);
-      await blinkGameProcess(blinkFail);
-
-      if (lifeCount === 0) {
-        alert(`
-          Game Over
-          최종 진행 단계는 ${stage} 단계입니다
-        `);
-        location.reload();
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 150));
-      await repeatQuestion();
-      limitTime.innerText = `${questionArray.length + 5}`;
-      answerArray = [];
-      answerIndex = 0;
-      countTime(stage);
-      answer();
-    }
-  }, stage * 1000 + 5000);
 }
 
 function handleButtonClick(event) {
@@ -240,8 +214,11 @@ function compareArrays() {
       return wrongAnswer;
     }
   }
-  console.log("오답검증 : " + wrongAnswer);
-  return wrongAnswer;
+  if (parseInt(limitTime.innerText) === 0) {
+    wrongAnswer = true;
+    console.log("오답검증 : " + wrongAnswer);
+    return wrongAnswer;
+  }
 }
 
 async function checkAnswer() {
@@ -249,9 +226,7 @@ async function checkAnswer() {
   if (answerIndex < questionArray.length) {
     if (compareArrays()) {
       lifeCount--;
-      if (lifeCount === 0) {
-        life.innerText = " ";
-      }
+      click = false;
       life.innerText = "❤️".repeat(lifeCount);
       await blinkGameProcess(blinkFail);
 
@@ -268,7 +243,7 @@ async function checkAnswer() {
       limitTime.innerText = `${questionArray.length + 5}`;
       answerArray = [];
       answerIndex = 0;
-      countTime(stage);
+      gradeInCountTime(stage);
       answer();
       return;
     }
