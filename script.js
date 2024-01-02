@@ -112,8 +112,7 @@ async function countTime(stage) {
     let intervalId = setInterval(function () {
       if (
         parseInt(limitTime.innerText) === 0 ||
-        (questionArray.length === answerArray.length &&
-          JSON.stringify(questionArray) !== JSON.stringify(answerArray)) ||
+        compareArrays() ||
         JSON.stringify(questionArray) === JSON.stringify(answerArray)
         // questionArray.length !== answerArray.length
       ) {
