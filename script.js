@@ -6,6 +6,8 @@ let play = false;
 let stage = 1;
 let answerIndex = 0;
 let click = true;
+let wrongAnswer = false;
+let correctAnswer = false;
 
 let life = document.getElementById("lifeCount");
 let lifeCount = 3;
@@ -30,7 +32,7 @@ async function game() {
 
 async function stagePlay(stage) {
   await question(stage);
-  gradeInCountTime(stage);
+  countTime(stage);
   answer();
 }
 
@@ -64,6 +66,7 @@ function blinkAllButton() {
 }
 
 function blinkSuccess() {
+  correctAnswer = true;
   return new Promise((resolve) => {
     memoryArray.map((el) =>
       (Number(el.id) > 1 && Number(el.id) < 5) ||
@@ -103,7 +106,7 @@ async function resetGame() {
   location.reload();
 }
 
-async function gradeInCountTime(stage) {
+async function countTime(stage) {
   console.log("시간 카운팅");
   let startTime = stage + 5;
   limitTime.innerText = startTime;
@@ -129,6 +132,8 @@ async function gradeInCountTime(stage) {
 
 async function question(stage) {
   click = false;
+  wrongAnswer = false;
+  rightAnswer = false;
   for (let i = 0; i < stage; i++) {
     await blinkQuestion();
     await new Promise((resolve) => setTimeout(resolve, 250));
@@ -189,6 +194,34 @@ async function answer() {
     memoryArray[i].addEventListener("click", handleButtonClick);
     memoryArray[i].addEventListener("click", compareArrays);
   }
+  setTimeout(async () => {
+    if (!correctAnswer && answerArray.length !== questionArray.length) {
+      console.log("제한시간 초과");
+      lifeCount--;
+      click = false;
+      life.innerText = "❤️".repeat(lifeCount);
+      await blinkGameProcess(blinkFail);
+
+      if (lifeCount === 0) {
+        alert(`
+            Game Over
+            최종 진행 단계는 ${stage} 단계입니다
+          `);
+        location.reload();
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      await repeatQuestion();
+      limitTime.innerText = `${questionArray.length + 5}`;
+      rightAnswer = false;
+      correctAnswer = false;
+      answerArray = [];
+      answerIndex = 0;
+      countTime(stage);
+      answer();
+      return;
+    }
+  }, stage * 1000 + 5000);
 }
 
 function handleButtonClick(event) {
@@ -205,8 +238,6 @@ function handleButtonClick(event) {
 
 // 실시간 정답 검증을 위한 배열 비교
 function compareArrays() {
-  let wrongAnswer = false;
-
   for (let i = 0; i < answerArray.length; i++) {
     if (answerArray[i] !== questionArray[i]) {
       wrongAnswer = true;
@@ -241,9 +272,11 @@ async function checkAnswer() {
       await new Promise((resolve) => setTimeout(resolve, 150));
       await repeatQuestion();
       limitTime.innerText = `${questionArray.length + 5}`;
+      rightAnswer = false;
+      correctAnswer = false;
       answerArray = [];
       answerIndex = 0;
-      gradeInCountTime(stage);
+      countTime(stage);
       answer();
       return;
     }
@@ -257,6 +290,8 @@ async function checkAnswer() {
       questionArray = [];
       repeatArray = [];
       answerArray = [];
+      rightAnswer = false;
+      correctAnswer = false;
       answerIndex = 0;
       stage++;
       stagePlay(stage);
