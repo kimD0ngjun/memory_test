@@ -9,7 +9,7 @@
   <body>
     <div class="game-container">
       <section id="top" class="tab">
-        <button class="playButton">PLAY</button>
+        <button id="playButton">PLAY</button>
       </section>
       <section id="gameButton" class="tab">
         <div id="first-row" class="row">
@@ -51,17 +51,21 @@
       <section id="status" class="tab">
         <div id="score" class="status">
           <div class="system">SCORE</div>
-          <div class="board">00000</div>
+          <div id="scoreCount" class="board">00000</div>
         </div>
         <div id="limit-time" class="status">
           <div class="system">LIMIT TIME</div>
-          <div class="board">00.00</div>
+          <div id="countTimer">
+            <span id="timeCount" class="board">0</span>
+            <span id="timeUnit">s</span>
+          </div>
         </div>
         <div id="life" class="status">
           <div class="system">LIFE</div>
-          <div class="board">❤️ ❤️ ❤️</div>
+          <div id="lifeCount" class="board">❤️❤️❤️</div>
         </div>
       </section>
     </div>
+    <script src="./script.js"></script>
   </body>
 </html>
