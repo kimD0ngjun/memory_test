@@ -9,8 +9,6 @@ let stage = 1;
 let answerIndex = 0;
 let click = true;
 let wrongAnswer;
-let correctAnswer = false;
-let blink;
 
 let life = document.getElementById("lifeCount");
 let lifeCount = 3;
