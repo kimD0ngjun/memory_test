@@ -15,6 +15,8 @@ let lifeCount = 3;
 
 let limitTime = document.getElementById("timeCount");
 
+let gameMessage = document.getElementById("gameMessage");
+
 let questionArray = [];
 let repeatArray = [];
 let answerArray = [];
@@ -32,6 +34,7 @@ async function game() {
 }
 
 async function stagePlay(stage) {
+  await typeMessage(stage);
   await question(stage);
   countTime(stage);
   answer();
@@ -175,6 +178,23 @@ async function countTime(stage) {
         limitTime.innerText--;
       }
     }, 1000);
+  });
+}
+
+function typeMessage(stage) {
+  return new Promise((resolve) => {
+    let text = `${stage}단계 시작`;
+    let index = 0;
+    const typingNextCharacter = () => {
+      if (index < text.length) {
+        gameMessage.innerText += text[index];
+        index++; // 타이핑 이펙트
+        setTimeout(typingNextCharacter, 100);
+      } else {
+        resolve(); // 다 끝났으면 함수 종료
+      }
+    };
+    typingNextCharacter();
   });
 }
 
