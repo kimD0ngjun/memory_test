@@ -104,14 +104,40 @@ function blinkFail() {
 // 진행 과정 관련 함수
 
 async function resetGame() {
-  alert(
+  let name;
+  let guide = confirm(
     `
+    Game Over
+
     최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`} 
     총합 스코어 : ${scoreCount} 점
 
-    현재 진행 단계에서 게임을 초기화합니다
-  `
+    기록을 저장하시겠습니까?
+    `
   );
+  if (guide) {
+    do {
+      name = prompt("이름을 입력하세요 :");
+
+      if (name === null) {
+        alert("기록이 저장되지 않습니다. 게임을 초기화합니다");
+        break;
+      }
+
+      if (name.trim().length === 0) {
+        alert("최소 1자 이상의 이름을 입력해주세요.");
+      }
+    } while (name.trim().length === 0);
+    console.log(
+      `
+      이름 : ${name}, 
+      최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`}, 
+      총합 스코어 : ${scoreCount} 점`
+    );
+    alert("게임을 초기화합니다");
+  } else {
+    alert("게임을 초기화합니다");
+  }
   location.reload();
 }
 
@@ -218,13 +244,7 @@ async function answer() {
       await blinkGameProcess(blinkFail);
 
       if (lifeCount === 0) {
-        alert(`
-          Game Over
-
-          최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`} 
-          총합 스코어 : ${scoreCount} 점
-        `);
-        location.reload();
+        resetGame();
       }
 
       await new Promise((resolve) => setTimeout(resolve, 150));
@@ -282,13 +302,7 @@ async function checkAnswer() {
       await blinkGameProcess(blinkFail);
 
       if (lifeCount === 0) {
-        alert(`
-          Game Over
-          
-          최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`} 
-          총합 스코어 : ${scoreCount} 점
-        `);
-        location.reload();
+        resetGame();
       }
 
       await new Promise((resolve) => setTimeout(resolve, 150));
