@@ -142,12 +142,33 @@ async function resetGame() {
       최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`}
       총합 스코어 : ${scoreCount} 점`
       );
+      addScore(name, stage, scoreCount);
     }
     alert("게임을 초기화합니다");
   } else {
     alert("게임을 초기화합니다");
   }
   location.reload();
+}
+
+function addScore(name, stage, scoreCount) {
+  const scoreList = document.getElementById("scoreList");
+  const scoreItem = document.createElement("li");
+  const scoreName = document.createElement("div");
+  scoreName.innerText = `${name}`;
+  const scoreDate = document.createElement("div");
+  scoreDate.innerText = `${currentDate()}`;
+  const scoreStage = document.createElement("div");
+  scoreStage.innerText = `${stage}`;
+  const scoreAmount = document.createElement("div");
+  scoreAmount.innerText = `${scoreCount}`;
+
+  scoreItem.appendChild(scoreName);
+  scoreItem.appendChild(scoreDate);
+  scoreItem.appendChild(scoreStage);
+  scoreItem.appendChild(scoreAmount);
+
+  scoreList.appendChild(scoreItem);
 }
 
 function currentDate() {
