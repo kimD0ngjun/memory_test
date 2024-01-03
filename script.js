@@ -304,7 +304,8 @@ async function checkAnswer() {
       let timeGap = parseInt(limitTime.innerText);
       console.log("클리어 시간 차 : " + timeGap);
       scoreCount += 15 * timeGap;
-      score.innerText = `${scoreCount}`;
+      score.innerText = String(scoreCount).padStart(5, "0");
+      // score.innerText = `${scoreCount}`;
       console.log("점수 : " + score.innerText);
       await blinkGameProcess(blinkSuccess);
 
