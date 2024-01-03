@@ -35,6 +35,12 @@ async function game() {
 
 async function stagePlay(stage) {
   await typeMessage(stage);
+  await new Promise((resolve) =>
+    setTimeout(() => {
+      console.log("시간 간격 확인");
+      resolve();
+    }, 500)
+  );
   await question(stage);
   countTime(stage);
   answer();
