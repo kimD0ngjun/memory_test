@@ -228,7 +228,7 @@ body {
 #scoreList {
   border: 0.05rem solid purple;
   list-style-type: none;
-  padding: 0;
+  padding: 0.1rem;
 }
 
 #scoreList:empty {
@@ -236,9 +236,20 @@ body {
 }
 
 #scoreItem {
-  height: 3rem;
+  border: 0.05rem solid purple;
+  height: 2.2rem;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+}
+
+.scoreProperty {
+  text-align: center;
+  border: 0.05rem solid purple;
+  width: 20em;
+  padding: 0.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
