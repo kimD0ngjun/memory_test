@@ -37,7 +37,7 @@ body {
 #top {
   height: 7.5%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -60,6 +60,14 @@ body {
   opacity: 0.7;
   background-color: #ce4b40;
   cursor: grabbing;
+}
+
+#gameMessage {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: 1.07rem;
+  overflow: hidden;
+  white-space: pre-wrap;
 }
 
 /* 중단 탭 */

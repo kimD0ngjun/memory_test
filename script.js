@@ -9,13 +9,13 @@ let stage = 1;
 let answerIndex = 0;
 let click = true;
 let wrongAnswer;
-let correctAnswer = false;
-let blink;
 
 let life = document.getElementById("lifeCount");
 let lifeCount = 3;
 
 let limitTime = document.getElementById("timeCount");
+
+let gameMessage = document.getElementById("gameMessage");
 
 let questionArray = [];
 let repeatArray = [];
@@ -34,6 +34,12 @@ async function game() {
 }
 
 async function stagePlay(stage) {
+  await typeMessage(stage);
+  await new Promise((resolve) =>
+    setTimeout(() => {
+      resolve();
+    }, 500)
+  );
   await question(stage);
   countTime(stage);
   answer();
@@ -104,8 +110,58 @@ function blinkFail() {
 // 진행 과정 관련 함수
 
 async function resetGame() {
-  alert(`진행 내용을 초기화하고 게임을 재시작합니다.`);
+  let name;
+  let guide = confirm(
+    `
+    Game Over
+
+    최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`} 
+    총합 스코어 : ${scoreCount} 점
+
+    기록을 저장하시겠습니까?
+    `
+  );
+  if (guide) {
+    do {
+      name = prompt("이름을 입력하세요 :");
+
+      if (name === null) {
+        alert("기록이 저장되지 않습니다. 게임을 초기화합니다");
+        location.reload();
+      }
+
+      if (name.trim().length === 0) {
+        alert("최소 1자 이상의 이름을 입력해주세요.");
+      }
+    } while (name.trim().length === 0);
+    if (name !== null) {
+      console.log(
+        `
+      이름 : ${name}
+      날짜 : ${currentDate()}
+      최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`}
+      총합 스코어 : ${scoreCount} 점`
+      );
+    }
+    alert("게임을 초기화합니다");
+  } else {
+    alert("게임을 초기화합니다");
+  }
   location.reload();
+}
+
+function currentDate() {
+  let currentDate = new Date();
+  let year = currentDate.getFullYear();
+  let month = currentDate.getMonth() + 1; // 월은 0부터 시작하므로 1을 더하기
+  let day = currentDate.getDate();
+
+  // 월과 일이 한 자리 숫자인 경우 앞에 0을 붙여 두 자리로 만들기.
+  month = month < 10 ? "0" + month : month;
+  day = day < 10 ? "0" + day : day;
+
+  let formattedDate = year + "년 " + month + "월 " + day + "일";
+  return formattedDate;
 }
 
 async function countTime(stage) {
@@ -130,12 +186,45 @@ async function countTime(stage) {
   });
 }
 
+function typeMessage(stage) {
+  return new Promise((resolve) => {
+    let stageMessage = `${stage} 단계 시작`;
+    let index = 0;
+    const typeNextCharacter = () => {
+      if (index < stageMessage.length) {
+        gameMessage.innerText += stageMessage[index];
+        index++; // 타이핑 이펙트
+        setTimeout(typeNextCharacter, 100);
+      } else {
+        resolve(); // 다 끝났으면 함수 종료
+      }
+    };
+    typeNextCharacter();
+  });
+}
+
+function deleteMessage() {
+  return new Promise((resolve) => {
+    const messageLength = gameMessage.innerText.length;
+    let index = messageLength - 1;
+    const deleteNextCharacter = () => {
+      if (index >= 0) {
+        gameMessage.innerText = gameMessage.innerText.slice(0, index);
+        index--; // 딜리팅 이펙트
+        setTimeout(deleteNextCharacter, 100);
+      } else {
+        resolve(); // 다 끝났으면 함수 종료
+      }
+    };
+    deleteNextCharacter();
+  });
+}
+
 // 스테이지 문제 제출 함수
 
 async function question(stage) {
   click = false;
   wrongAnswer = false;
-  rightAnswer = false;
   for (let i = 0; i < stage; i++) {
     await blinkQuestion();
     await new Promise((resolve) => setTimeout(resolve, 250));
@@ -211,11 +300,7 @@ async function answer() {
       await blinkGameProcess(blinkFail);
 
       if (lifeCount === 0) {
-        alert(`
-            Game Over
-            최종 진행 단계는 ${stage} 단계입니다
-          `);
-        location.reload();
+        resetGame();
       }
 
       await new Promise((resolve) => setTimeout(resolve, 150));
@@ -273,12 +358,7 @@ async function checkAnswer() {
       await blinkGameProcess(blinkFail);
 
       if (lifeCount === 0) {
-        alert(`
-          Game Over
-          진행 단계 : ${stage} 단계
-          최종 점수 : ${scoreCount} 점
-        `);
-        location.reload();
+        resetGame();
       }
 
       await new Promise((resolve) => setTimeout(resolve, 150));
@@ -305,8 +385,9 @@ async function checkAnswer() {
       console.log("클리어 시간 차 : " + timeGap);
       scoreCount += 15 * timeGap;
       score.innerText = String(scoreCount).padStart(5, "0");
-      // score.innerText = `${scoreCount}`;
+
       console.log("점수 : " + score.innerText);
+      deleteMessage();
       await blinkGameProcess(blinkSuccess);
 
       rightAnswer = false;
