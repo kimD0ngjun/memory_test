@@ -104,7 +104,14 @@ function blinkFail() {
 // 진행 과정 관련 함수
 
 async function resetGame() {
-  alert(`진행 내용을 초기화하고 게임을 재시작합니다.`);
+  alert(
+    `
+    최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`} 
+    총합 스코어 : ${scoreCount} 점
+
+    현재 진행 단계에서 게임을 초기화합니다
+  `
+  );
   location.reload();
 }
 
@@ -212,9 +219,11 @@ async function answer() {
 
       if (lifeCount === 0) {
         alert(`
-            Game Over
-            최종 진행 단계는 ${stage} 단계입니다
-          `);
+          Game Over
+
+          최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`} 
+          총합 스코어 : ${scoreCount} 점
+        `);
         location.reload();
       }
 
@@ -275,8 +284,9 @@ async function checkAnswer() {
       if (lifeCount === 0) {
         alert(`
           Game Over
-          진행 단계 : ${stage} 단계
-          최종 점수 : ${scoreCount} 점
+          
+          최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`} 
+          총합 스코어 : ${scoreCount} 점
         `);
         location.reload();
       }
@@ -305,7 +315,7 @@ async function checkAnswer() {
       console.log("클리어 시간 차 : " + timeGap);
       scoreCount += 15 * timeGap;
       score.innerText = String(scoreCount).padStart(5, "0");
-      // score.innerText = `${scoreCount}`;
+
       console.log("점수 : " + score.innerText);
       await blinkGameProcess(blinkSuccess);
 
