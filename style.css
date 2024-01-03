@@ -37,7 +37,7 @@ body {
 #top {
   height: 7.5%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 }
 
