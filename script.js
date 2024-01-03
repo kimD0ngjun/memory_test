@@ -7,8 +7,9 @@ let play = false;
 let stage = 1;
 let answerIndex = 0;
 let click = true;
-let wrongAnswer = false;
+let wrongAnswer;
 let correctAnswer = false;
+let blink;
 
 let life = document.getElementById("lifeCount");
 let lifeCount = 3;
@@ -67,8 +68,6 @@ function blinkAllButton() {
 }
 
 function blinkSuccess() {
-  correctAnswer = true;
-  wrongAnswer = false;
   return new Promise((resolve) => {
     memoryArray.map((el) =>
       (Number(el.id) > 1 && Number(el.id) < 5) ||
@@ -88,8 +87,6 @@ function blinkSuccess() {
 }
 
 function blinkFail() {
-  correctAnswer = false;
-  wrongAnswer = true;
   return new Promise((resolve) => {
     memoryArray.map((el) =>
       Number(el.id) % 6 === 1 || Number(el.id) % 4 === 1
@@ -122,7 +119,7 @@ async function countTime(stage) {
         compareArrays() ||
         JSON.stringify(questionArray) === JSON.stringify(answerArray)
       ) {
-        clearInterval(intervalId); // 오답(길이가 다른)일 때 시간이 안 멈추고 있음
+        clearInterval(intervalId);
         console.log("시간 멈춤");
         resolve(); // Promise를 해결하여 다음 단계로 진행
       } else {
@@ -198,14 +195,18 @@ async function answer() {
     memoryArray[i].addEventListener("click", handleButtonClick);
     memoryArray[i].addEventListener("click", compareArrays);
   }
+  //TODO : 여기가 제일 문제... 위에서 정답이든 오답이든 뭔가 처리가 나오면 이쪽 로직을 진행하지 않게 하고 싶은데...
   setTimeout(async () => {
     if (
-      correctAnswer === false &&
+      limitTime.innerText === "0" &&
       answerArray.length !== questionArray.length
     ) {
       console.log("제한시간 초과");
       lifeCount--;
       click = false;
+      if (lifeCount === 0) {
+        life.innerText = " ";
+      }
       life.innerText = "❤️".repeat(lifeCount);
       await blinkGameProcess(blinkFail);
 
@@ -218,11 +219,11 @@ async function answer() {
       }
 
       await new Promise((resolve) => setTimeout(resolve, 150));
+      answerArray = [];
       await repeatQuestion();
       limitTime.innerText = `${questionArray.length + 5}`;
       rightAnswer = false;
       correctAnswer = false;
-      answerArray = [];
       answerIndex = 0;
       countTime(stage);
       answer();
@@ -265,6 +266,9 @@ async function checkAnswer() {
     if (compareArrays()) {
       lifeCount--;
       click = false;
+      if (lifeCount === 0) {
+        life.innerText = " ";
+      }
       life.innerText = "❤️".repeat(lifeCount);
       await blinkGameProcess(blinkFail);
 
@@ -277,11 +281,11 @@ async function checkAnswer() {
       }
 
       await new Promise((resolve) => setTimeout(resolve, 150));
+      answerArray = [];
       await repeatQuestion();
       limitTime.innerText = `${questionArray.length + 5}`;
       rightAnswer = false;
       correctAnswer = false;
-      answerArray = [];
       answerIndex = 0;
       countTime(stage);
       answer();
@@ -293,10 +297,12 @@ async function checkAnswer() {
 
   if (answerIndex === questionArray.length) {
     if (JSON.stringify(questionArray) === JSON.stringify(answerArray)) {
-      await blinkGameProcess(blinkSuccess);
       questionArray = [];
       repeatArray = [];
       answerArray = [];
+      await blinkGameProcess(blinkSuccess);
+      console.log("점수 : " + score.innerText);
+
       rightAnswer = false;
       correctAnswer = false;
       answerIndex = 0;
