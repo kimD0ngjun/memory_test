@@ -121,24 +121,41 @@ async function resetGame() {
 
       if (name === null) {
         alert("기록이 저장되지 않습니다. 게임을 초기화합니다");
-        break;
+        location.reload();
       }
 
       if (name.trim().length === 0) {
         alert("최소 1자 이상의 이름을 입력해주세요.");
       }
     } while (name.trim().length === 0);
-    console.log(
-      `
-      이름 : ${name}, 
-      최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`}, 
+    if (name !== null) {
+      console.log(
+        `
+      이름 : ${name}
+      날짜 : ${currentDate()}
+      최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`}
       총합 스코어 : ${scoreCount} 점`
-    );
+      );
+    }
     alert("게임을 초기화합니다");
   } else {
     alert("게임을 초기화합니다");
   }
   location.reload();
+}
+
+function currentDate() {
+  let currentDate = new Date();
+  let year = currentDate.getFullYear();
+  let month = currentDate.getMonth() + 1; // 월은 0부터 시작하므로 1을 더하기
+  let day = currentDate.getDate();
+
+  // 월과 일이 한 자리 숫자인 경우 앞에 0을 붙여 두 자리로 만들기.
+  month = month < 10 ? "0" + month : month;
+  day = day < 10 ? "0" + day : day;
+
+  let formattedDate = year + "년 " + month + "월 " + day + "일";
+  return formattedDate;
 }
 
 async function countTime(stage) {
@@ -168,7 +185,6 @@ async function countTime(stage) {
 async function question(stage) {
   click = false;
   wrongAnswer = false;
-  rightAnswer = false;
   for (let i = 0; i < stage; i++) {
     await blinkQuestion();
     await new Promise((resolve) => setTimeout(resolve, 250));
