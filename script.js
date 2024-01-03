@@ -183,18 +183,35 @@ async function countTime(stage) {
 
 function typeMessage(stage) {
   return new Promise((resolve) => {
-    let text = `${stage}단계 시작`;
+    let stageMessage = `${stage}단계 시작`;
     let index = 0;
-    const typingNextCharacter = () => {
-      if (index < text.length) {
-        gameMessage.innerText += text[index];
+    const typeNextCharacter = () => {
+      if (index < stageMessage.length) {
+        gameMessage.innerText += stageMessage[index];
         index++; // 타이핑 이펙트
-        setTimeout(typingNextCharacter, 100);
+        setTimeout(typeNextCharacter, 100);
       } else {
         resolve(); // 다 끝났으면 함수 종료
       }
     };
-    typingNextCharacter();
+    typeNextCharacter();
+  });
+}
+
+function deleteMessage() {
+  return new Promise((resolve) => {
+    const messageLength = gameMessage.innerText.length;
+    let index = messageLength - 1;
+    const deleteNextCharacter = () => {
+      if (index >= 0) {
+        gameMessage.innerText = gameMessage.innerText.slice(0, index);
+        index--; // 딜리팅 이펙트
+        setTimeout(deleteNextCharacter, 100);
+      } else {
+        resolve(); // 다 끝났으면 함수 종료
+      }
+    };
+    deleteNextCharacter();
   });
 }
 
@@ -365,6 +382,7 @@ async function checkAnswer() {
       score.innerText = String(scoreCount).padStart(5, "0");
 
       console.log("점수 : " + score.innerText);
+      deleteMessage();
       await blinkGameProcess(blinkSuccess);
 
       rightAnswer = false;
