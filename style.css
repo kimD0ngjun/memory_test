@@ -62,6 +62,14 @@ body {
   cursor: grabbing;
 }
 
+#gameMessage {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: 1.07rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 /* 중단 탭 */
 
 #gameButton {
