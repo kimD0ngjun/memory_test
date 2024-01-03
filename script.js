@@ -196,7 +196,6 @@ async function answer() {
     memoryArray[i].addEventListener("click", handleButtonClick);
     memoryArray[i].addEventListener("click", compareArrays);
   }
-  //TODO : 여기가 제일 문제... 위에서 정답이든 오답이든 뭔가 처리가 나오면 이쪽 로직을 진행하지 않게 하고 싶은데...
   setTimeout(async () => {
     if (
       limitTime.innerText === "0" &&
@@ -276,7 +275,8 @@ async function checkAnswer() {
       if (lifeCount === 0) {
         alert(`
           Game Over
-          최종 진행 단계는 ${stage} 단계입니다
+          진행 단계 : ${stage} 단계
+          최종 점수 : ${scoreCount} 점
         `);
         location.reload();
       }
