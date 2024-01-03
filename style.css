@@ -253,3 +253,15 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.deleteButton {
+  background-color: rgb(210, 94, 94);
+}
+
+.deleteButton:hover {
+  cursor: pointer;
+}
+
+.deleteButton:active {
+  cursor: grab;
+}

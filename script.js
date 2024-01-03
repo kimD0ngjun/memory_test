@@ -155,27 +155,31 @@ function addScore(name, stage, scoreCount) {
   const scoreList = document.getElementById("scoreList");
   const scoreItem = document.createElement("li");
   scoreItem.id = "scoreItem";
+
   const scoreName = document.createElement("div");
   scoreName.innerText = `${name}`;
   scoreName.className = "scoreProperty";
+
   const scoreDate = document.createElement("div");
   scoreDate.innerText = `${currentDate()}`;
   scoreDate.className = "scoreProperty";
+
   const scoreStage = document.createElement("div");
   scoreStage.innerText = `${stage === 1 ? `없음` : `${stage - 1} 단계`}`;
   scoreStage.className = "scoreProperty";
+
   const scoreAmount = document.createElement("div");
   scoreAmount.innerText = `${scoreCount} 점`;
   scoreAmount.className = "scoreProperty";
+
   const deleteButton = document.createElement("button");
   deleteButton.innerText = "🗑";
+  deleteButton.className = "deleteButton";
 
   deleteButton.addEventListener("click", function () {
     console.log("버튼 클릭");
-    if (scoreList === deleteButton.parentElement) {
-      scoreList.remove();
-    }
-  });
+    scoreList.removeChild(scoreItem);
+  }); // 왜 삭제가 안될까아아
 
   scoreItem.appendChild(scoreName);
   scoreItem.appendChild(scoreDate);
