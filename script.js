@@ -148,25 +148,29 @@ async function resetGame() {
   } else {
     alert("게임을 초기화합니다");
   }
-  location.reload();
+  // location.reload();
 }
 
 function addScore(name, stage, scoreCount) {
   const scoreList = document.getElementById("scoreList");
   const scoreItem = document.createElement("li");
+  scoreItem.id = "scoreItem";
   const scoreName = document.createElement("div");
   scoreName.innerText = `${name}`;
   const scoreDate = document.createElement("div");
   scoreDate.innerText = `${currentDate()}`;
   const scoreStage = document.createElement("div");
-  scoreStage.innerText = `${stage}`;
+  scoreStage.innerText = `${stage === 1 ? `없음` : `${stage - 1} 단계`}`;
   const scoreAmount = document.createElement("div");
-  scoreAmount.innerText = `${scoreCount}`;
+  scoreAmount.innerText = `${scoreCount} 점`;
+  const deleteButton = document.createElement("button");
+  deleteButton.innerText = "🗑";
 
   scoreItem.appendChild(scoreName);
   scoreItem.appendChild(scoreDate);
   scoreItem.appendChild(scoreStage);
   scoreItem.appendChild(scoreAmount);
+  scoreItem.appendChild(deleteButton);
 
   scoreList.appendChild(scoreItem);
 }
@@ -181,7 +185,7 @@ function currentDate() {
   month = month < 10 ? "0" + month : month;
   day = day < 10 ? "0" + day : day;
 
-  let formattedDate = year + "년 " + month + "월 " + day + "일";
+  let formattedDate = year + "." + month + "." + day;
   return formattedDate;
 }
 
