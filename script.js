@@ -3,6 +3,7 @@ const memoryArray = Array.from(memoryButton); // 유사배열객체 배열화
 
 let playButton = document.getElementById("playButton");
 let score = document.getElementById("scoreCount");
+let scoreCount = 0;
 let play = false;
 let stage = 1;
 let answerIndex = 0;
@@ -300,8 +301,12 @@ async function checkAnswer() {
       questionArray = [];
       repeatArray = [];
       answerArray = [];
-      await blinkGameProcess(blinkSuccess);
+      let timeGap = parseInt(limitTime.innerText);
+      console.log("클리어 시간 차 : " + timeGap);
+      scoreCount += 15 * timeGap;
+      score.innerText = `${scoreCount}`;
       console.log("점수 : " + score.innerText);
+      await blinkGameProcess(blinkSuccess);
 
       rightAnswer = false;
       correctAnswer = false;
