@@ -67,7 +67,7 @@ body {
     "Lucida Sans", Arial, sans-serif;
   font-size: 1.07rem;
   overflow: hidden;
-  white-space: nowrap;
+  white-space: pre-wrap;
 }
 
 /* 중단 탭 */

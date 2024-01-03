@@ -37,7 +37,6 @@ async function stagePlay(stage) {
   await typeMessage(stage);
   await new Promise((resolve) =>
     setTimeout(() => {
-      console.log("시간 간격 확인");
       resolve();
     }, 500)
   );
@@ -189,7 +188,7 @@ async function countTime(stage) {
 
 function typeMessage(stage) {
   return new Promise((resolve) => {
-    let stageMessage = `${stage}단계 시작`;
+    let stageMessage = `${stage} 단계 시작`;
     let index = 0;
     const typeNextCharacter = () => {
       if (index < stageMessage.length) {
