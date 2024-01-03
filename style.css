@@ -6,7 +6,7 @@
 body {
   height: 100vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 }
 
@@ -22,6 +22,7 @@ body {
   justify-content: space-around;
   align-items: center;
   box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.5);
+  z-index: 2;
 }
 
 .tab {
@@ -30,6 +31,27 @@ body {
   box-shadow: inset 0 0 0.25rem rgba(0, 0, 0, 0.5);
   padding: 0.3125rem;
   margin: 0.1875rem;
+}
+
+.explain-container {
+  background-color: yellow;
+  height: 100vh;
+  width: 33.333333%;
+  z-index: -1;
+}
+
+.scoreRecord-container {
+  background-color: greenyellow;
+  height: 100vh;
+  width: 33.333333%;
+  z-index: -1;
+}
+
+@media screen and (max-width: 58rem) {
+  .explain-container,
+  .scoreRecord-container {
+    display: none;
+  }
 }
 
 /* 상단 탭 */
