@@ -21,7 +21,15 @@ let questionArray = [];
 let repeatArray = [];
 let answerArray = [];
 
+let logoClick = document.getElementById("logo-img");
+let explainList = document.getElementById("explainList");
+
 playButton.addEventListener("click", game);
+
+logoClick.addEventListener("click", function () {
+  console.log("로고를 클릭했습니다.");
+  explainList.classList.toggle("active");
+});
 
 async function game() {
   if (play) {

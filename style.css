@@ -86,7 +86,7 @@ body {
   }
 }
 
-#click-logo {
+#clickLogo {
   text-align: center;
   margin-top: 0.5rem;
   animation: pulsate 4s 4s 1.5;
@@ -127,6 +127,16 @@ body {
   list-style-type: circle;
   padding: 0.7rem;
   align-self: stretch;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-1.5rem);
+  transition: 500ms ease;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
 }
 
 .explainItem {
