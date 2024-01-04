@@ -41,6 +41,17 @@ body {
   padding: 1rem;
 }
 
+#explainList {
+  list-style-type: circle;
+  padding: 0.7rem;
+}
+
+.explainItem {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  margin-bottom: 1rem;
+}
+
 .scoreRecord-container {
   height: 100vh;
   width: 33.333333%;
