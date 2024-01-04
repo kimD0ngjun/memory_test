@@ -41,11 +41,13 @@ body {
 }
 
 .scoreRecord-container {
-  background-color: greenyellow;
   height: 100vh;
   width: 33.333333%;
   z-index: 0;
   padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media screen and (max-width: 58rem) {
@@ -225,8 +227,22 @@ body {
 }
 
 /* 점수 보드 */
+#record-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#scoreTitle {
+  text-align: center;
+  font-size: 1.1rem;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  margin-bottom: 0.5rem;
+}
+
 #scoreList {
-  border: 0.05rem solid purple;
+  /* border: 0.05rem solid purple; */
   list-style-type: none;
   padding: 0.1rem;
   max-height: 13.5rem;
@@ -238,8 +254,10 @@ body {
 }
 
 #scoreItem {
-  border: 0.05rem solid purple;
-  margin-bottom: 0.05rem;
+  background-color: #ccc;
+  /* border: 0.05rem solid purple; */
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
   height: 2.2rem;
   display: flex;
   flex-direction: row;
@@ -249,22 +267,40 @@ body {
 
 .scoreProperty {
   text-align: center;
-  border: 0.05rem solid purple;
-  width: 20em;
+  /* border: 0.05rem solid purple; */
+  width: 3.5rem;
   padding: 0.1rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* .deleteButton {
+.scoreDate {
+  text-align: center;
+  /* border: 0.05rem solid purple; */
+  width: 7.1rem;
+  padding: 0.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.deleteButton {
+  margin-right: 0.5rem;
+  color: white;
   background-color: rgb(210, 94, 94);
+  border: 0.05rem solid rgb(150, 69, 69);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  transition: 0.1s;
 }
 
 .deleteButton:hover {
   cursor: pointer;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
 }
 
 .deleteButton:active {
   cursor: grab;
-} */
+  transform: scale(1);
+}

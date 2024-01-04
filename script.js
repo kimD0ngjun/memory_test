@@ -162,7 +162,7 @@ function addScore(name, stage, scoreCount) {
 
   const scoreDate = document.createElement("div");
   scoreDate.innerText = `${currentDate()}`;
-  scoreDate.className = "scoreProperty";
+  scoreDate.className = "scoreDate";
 
   const scoreStage = document.createElement("div");
   scoreStage.innerText = `${stage === 1 ? `없음` : `${stage - 1} 단계`}`;
@@ -173,7 +173,8 @@ function addScore(name, stage, scoreCount) {
   scoreAmount.className = "scoreProperty";
 
   const deleteButton = document.createElement("button");
-  deleteButton.innerText = "Delete";
+  deleteButton.innerText = "x";
+  deleteButton.className = "deleteButton";
   deleteButton.addEventListener("click", function () {
     scoreList.removeChild(scoreItem);
   });
