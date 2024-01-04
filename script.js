@@ -142,6 +142,7 @@ async function resetGame() {
       최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`}
       총합 스코어 : ${scoreCount} 점`
       );
+      addScore(name, stage, scoreCount);
     }
     alert("게임을 초기화합니다");
   } else {
@@ -160,7 +161,7 @@ function currentDate() {
   month = month < 10 ? "0" + month : month;
   day = day < 10 ? "0" + day : day;
 
-  let formattedDate = year + "년 " + month + "월 " + day + "일";
+  let formattedDate = year + "." + month + "." + day;
   return formattedDate;
 }
 
@@ -188,7 +189,7 @@ async function countTime(stage) {
 
 function typeMessage(stage) {
   return new Promise((resolve) => {
-    let stageMessage = `${stage} 단계 시작`;
+    let stageMessage = ` ${stage} 단계 시작`;
     let index = 0;
     const typeNextCharacter = () => {
       if (index < stageMessage.length) {
@@ -388,13 +389,110 @@ async function checkAnswer() {
 
       console.log("점수 : " + score.innerText);
       deleteMessage();
+      stage++;
       await blinkGameProcess(blinkSuccess);
 
       rightAnswer = false;
       correctAnswer = false;
       answerIndex = 0;
-      stage++;
       stagePlay(stage);
     }
   }
 }
+
+// 점수 기록 관련 함수
+
+function addScore(name, stage, scoreCount) {
+  let scoreList = document.getElementById("scoreList");
+
+  let savedScores = JSON.parse(localStorage.getItem("scores")) || [];
+
+  let scoreItem = document.createElement("li");
+  scoreItem.id = "scoreItem";
+
+  let scoreName = document.createElement("div");
+  scoreName.innerText = `${name}`;
+  scoreName.className = "scoreProperty";
+
+  let scoreDate = document.createElement("div");
+  scoreDate.innerText = `${currentDate()}`;
+  scoreDate.className = "scoreDate";
+
+  let scoreStage = document.createElement("div");
+  scoreStage.innerText = `${stage === 1 ? `없음` : `${stage - 1} 단계`}`;
+  scoreStage.className = "scoreProperty";
+
+  let scoreAmount = document.createElement("div");
+  scoreAmount.innerText = `${scoreCount} 점`;
+  scoreAmount.className = "scoreProperty";
+
+  let deleteButton = document.createElement("button");
+  deleteButton.innerText = "x";
+  deleteButton.className = "deleteButton";
+  deleteButton.addEventListener("click", function () {
+    scoreList.removeChild(scoreItem);
+    let updatedScores = savedScores.filter(
+      (score) => score.name !== name && score.scoreCount !== scoreCount
+    );
+    savedScores = updatedScores;
+    localStorage.setItem("scores", JSON.stringify(savedScores));
+  });
+
+  scoreItem.appendChild(scoreName);
+  scoreItem.appendChild(scoreDate);
+  scoreItem.appendChild(scoreStage);
+  scoreItem.appendChild(scoreAmount);
+  scoreItem.appendChild(deleteButton);
+
+  scoreList.appendChild(scoreItem);
+
+  let newScore = { name, stage, scoreCount, date: currentDate() };
+  savedScores.push(newScore);
+  localStorage.setItem("scores", JSON.stringify(savedScores));
+}
+
+window.onload = function () {
+  let savedScores = JSON.parse(localStorage.getItem("scores")) || [];
+  let scoreList = document.getElementById("scoreList");
+
+  savedScores.forEach((score) => {
+    let scoreItem = document.createElement("li");
+    scoreItem.id = "scoreItem";
+
+    let scoreName = document.createElement("div");
+    scoreName.innerText = `${score.name}`;
+    scoreName.className = "scoreProperty";
+
+    let scoreDate = document.createElement("div");
+    scoreDate.innerText = `${score.date}`;
+    scoreDate.className = "scoreDate";
+
+    let scoreStage = document.createElement("div");
+    scoreStage.innerText = `${
+      score.stage === 1 ? `없음` : `${score.stage - 1} 단계`
+    }`;
+    scoreStage.className = "scoreProperty";
+
+    let scoreAmount = document.createElement("div");
+    scoreAmount.innerText = `${score.scoreCount} 점`;
+    scoreAmount.className = "scoreProperty";
+
+    let deleteButton = document.createElement("button");
+    deleteButton.innerText = "x";
+    deleteButton.className = "deleteButton";
+    deleteButton.addEventListener("click", function () {
+      scoreList.removeChild(scoreItem);
+      let updatedScores = savedScores.filter((s) => s.name !== score.name);
+      savedScores = updatedScores;
+      localStorage.setItem("scores", JSON.stringify(savedScores));
+    });
+
+    scoreItem.appendChild(scoreName);
+    scoreItem.appendChild(scoreDate);
+    scoreItem.appendChild(scoreStage);
+    scoreItem.appendChild(scoreAmount);
+    scoreItem.appendChild(deleteButton);
+
+    scoreList.appendChild(scoreItem);
+  });
+};
