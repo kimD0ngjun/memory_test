@@ -151,52 +151,6 @@ async function resetGame() {
   location.reload();
 }
 
-function addScore(name, stage, scoreCount) {
-  const scoreList = document.getElementById("scoreList");
-
-  let savedScores = JSON.parse(localStorage.getItem("scores")) || [];
-
-  const scoreItem = document.createElement("li");
-  scoreItem.id = "scoreItem";
-
-  const scoreName = document.createElement("div");
-  scoreName.innerText = `${name}`;
-  scoreName.className = "scoreProperty";
-
-  const scoreDate = document.createElement("div");
-  scoreDate.innerText = `${currentDate()}`;
-  scoreDate.className = "scoreDate";
-
-  const scoreStage = document.createElement("div");
-  scoreStage.innerText = `${stage === 1 ? `없음` : `${stage - 1} 단계`}`;
-  scoreStage.className = "scoreProperty";
-
-  const scoreAmount = document.createElement("div");
-  scoreAmount.innerText = `${scoreCount} 점`;
-  scoreAmount.className = "scoreProperty";
-
-  const deleteButton = document.createElement("button");
-  deleteButton.innerText = "x";
-  deleteButton.className = "deleteButton";
-  deleteButton.addEventListener("click", function () {
-    scoreList.removeChild(scoreItem);
-    savedScores = savedScores.filter((score) => score.name !== name);
-    localStorage.setItem("scores", JSON.stringify(savedScores));
-  });
-
-  scoreItem.appendChild(scoreName);
-  scoreItem.appendChild(scoreDate);
-  scoreItem.appendChild(scoreStage);
-  scoreItem.appendChild(scoreAmount);
-  scoreItem.appendChild(deleteButton);
-
-  scoreList.appendChild(scoreItem);
-
-  const newScore = { name, stage, scoreCount, date: currentDate() };
-  savedScores.push(newScore);
-  localStorage.setItem("scores", JSON.stringify(savedScores));
-}
-
 function currentDate() {
   let currentDate = new Date();
   let year = currentDate.getFullYear();
@@ -435,13 +389,110 @@ async function checkAnswer() {
 
       console.log("점수 : " + score.innerText);
       deleteMessage();
+      stage++;
       await blinkGameProcess(blinkSuccess);
 
       rightAnswer = false;
       correctAnswer = false;
       answerIndex = 0;
-      stage++;
       stagePlay(stage);
     }
   }
 }
+
+// 점수 기록 관련 함수
+
+function addScore(name, stage, scoreCount) {
+  let scoreList = document.getElementById("scoreList");
+
+  let savedScores = JSON.parse(localStorage.getItem("scores")) || [];
+
+  let scoreItem = document.createElement("li");
+  scoreItem.id = "scoreItem";
+
+  let scoreName = document.createElement("div");
+  scoreName.innerText = `${name}`;
+  scoreName.className = "scoreProperty";
+
+  let scoreDate = document.createElement("div");
+  scoreDate.innerText = `${currentDate()}`;
+  scoreDate.className = "scoreDate";
+
+  let scoreStage = document.createElement("div");
+  scoreStage.innerText = `${stage === 1 ? `없음` : `${stage - 1} 단계`}`;
+  scoreStage.className = "scoreProperty";
+
+  let scoreAmount = document.createElement("div");
+  scoreAmount.innerText = `${scoreCount} 점`;
+  scoreAmount.className = "scoreProperty";
+
+  let deleteButton = document.createElement("button");
+  deleteButton.innerText = "x";
+  deleteButton.className = "deleteButton";
+  deleteButton.addEventListener("click", function () {
+    scoreList.removeChild(scoreItem);
+    let updatedScores = savedScores.filter(
+      (score) => score.name !== name && score.scoreCount !== scoreCount
+    );
+    savedScores = updatedScores;
+    localStorage.setItem("scores", JSON.stringify(savedScores));
+  });
+
+  scoreItem.appendChild(scoreName);
+  scoreItem.appendChild(scoreDate);
+  scoreItem.appendChild(scoreStage);
+  scoreItem.appendChild(scoreAmount);
+  scoreItem.appendChild(deleteButton);
+
+  scoreList.appendChild(scoreItem);
+
+  let newScore = { name, stage, scoreCount, date: currentDate() };
+  savedScores.push(newScore);
+  localStorage.setItem("scores", JSON.stringify(savedScores));
+}
+
+window.onload = function () {
+  let savedScores = JSON.parse(localStorage.getItem("scores")) || [];
+  let scoreList = document.getElementById("scoreList");
+
+  savedScores.forEach((score) => {
+    let scoreItem = document.createElement("li");
+    scoreItem.id = "scoreItem";
+
+    let scoreName = document.createElement("div");
+    scoreName.innerText = `${score.name}`;
+    scoreName.className = "scoreProperty";
+
+    let scoreDate = document.createElement("div");
+    scoreDate.innerText = `${score.date}`;
+    scoreDate.className = "scoreDate";
+
+    let scoreStage = document.createElement("div");
+    scoreStage.innerText = `${
+      score.stage === 1 ? `없음` : `${score.stage - 1} 단계`
+    }`;
+    scoreStage.className = "scoreProperty";
+
+    let scoreAmount = document.createElement("div");
+    scoreAmount.innerText = `${score.scoreCount} 점`;
+    scoreAmount.className = "scoreProperty";
+
+    let deleteButton = document.createElement("button");
+    deleteButton.innerText = "x";
+    deleteButton.className = "deleteButton";
+    deleteButton.addEventListener("click", function () {
+      scoreList.removeChild(scoreItem);
+      let updatedScores = savedScores.filter((s) => s.name !== score.name);
+      savedScores = updatedScores;
+      localStorage.setItem("scores", JSON.stringify(savedScores));
+    });
+
+    scoreItem.appendChild(scoreName);
+    scoreItem.appendChild(scoreDate);
+    scoreItem.appendChild(scoreStage);
+    scoreItem.appendChild(scoreAmount);
+    scoreItem.appendChild(deleteButton);
+
+    scoreList.appendChild(scoreItem);
+  });
+};
