@@ -148,11 +148,14 @@ async function resetGame() {
   } else {
     alert("게임을 초기화합니다");
   }
-  // location.reload();
+  location.reload();
 }
 
 function addScore(name, stage, scoreCount) {
   const scoreList = document.getElementById("scoreList");
+
+  let savedScores = JSON.parse(localStorage.getItem("scores")) || [];
+
   const scoreItem = document.createElement("li");
   scoreItem.id = "scoreItem";
 
@@ -177,6 +180,8 @@ function addScore(name, stage, scoreCount) {
   deleteButton.className = "deleteButton";
   deleteButton.addEventListener("click", function () {
     scoreList.removeChild(scoreItem);
+    savedScores = savedScores.filter((score) => score.name !== name);
+    localStorage.setItem("scores", JSON.stringify(savedScores));
   });
 
   scoreItem.appendChild(scoreName);
@@ -186,6 +191,10 @@ function addScore(name, stage, scoreCount) {
   scoreItem.appendChild(deleteButton);
 
   scoreList.appendChild(scoreItem);
+
+  const newScore = { name, stage, scoreCount, date: currentDate() };
+  savedScores.push(newScore);
+  localStorage.setItem("scores", JSON.stringify(savedScores));
 }
 
 function currentDate() {
