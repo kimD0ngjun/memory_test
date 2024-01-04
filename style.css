@@ -1,0 +1,424 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.game-container {
+  border: 0.5rem white;
+  background-color: rgb(221, 221, 221);
+  width: 31.25rem;
+  height: 40.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.tab {
+  width: 97%;
+  background-color: rgb(241, 241, 241);
+  box-shadow: inset 0 0 0.25rem rgba(0, 0, 0, 0.5);
+  padding: 0.3125rem;
+  margin: 0.1875rem;
+}
+
+.explain-container {
+  height: 100vh;
+  width: 33.333333%;
+  z-index: 0;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.scoreRecord-container {
+  height: 100vh;
+  width: 33.333333%;
+  z-index: 0;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 58rem) {
+  .explain-container,
+  .scoreRecord-container {
+    display: none;
+  }
+}
+
+/* 병렬 헤더 */
+
+.header-item {
+  align-self: center;
+}
+
+#logo {
+  display: flex;
+  flex-direction: column;
+  height: 15%;
+}
+
+#logo-img {
+  width: 15rem;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    cursor: grab;
+    transform: scale(1);
+  }
+}
+
+#clickLogo {
+  text-align: center;
+  margin-top: 0.5rem;
+  animation: pulsate 4s 4s 1.5;
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(1);
+  }
+  12.5% {
+    transform: scale(1.1);
+  }
+  25% {
+    transform: scale(1);
+  }
+  37.5% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1);
+  }
+  62.5% {
+    transform: scale(1.1);
+  }
+  75% {
+    transform: scale(1);
+  }
+  87.5% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+#explainList {
+  height: 70%;
+  list-style-type: circle;
+  padding: 0.7rem;
+  align-self: stretch;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-1.5rem);
+  transition: 500ms ease;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+.explainItem {
+  font-size: 0.9rem;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  margin-bottom: 1.2rem;
+}
+
+#myProfile {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.iconBox {
+  margin: 0 1rem;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    cursor: grab;
+    transform: scale(1);
+  }
+}
+
+.icon {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+#copyright {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* 상단 탭 */
+
+#top {
+  height: 7.5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#playButton {
+  margin-right: 0.25rem;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: 1.25rem;
+  box-shadow: inset 0 0 0.2rem rgba(126, 126, 126, 0.5);
+  background-color: rgb(221, 221, 221);
+  cursor: pointer;
+}
+
+#playButton:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+#playButton:active {
+  opacity: 0.7;
+  background-color: #ce4b40;
+  cursor: grabbing;
+}
+
+#gameMessage {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: 1.07rem;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+/* 중단 탭 */
+
+#gameButton {
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.row {
+  margin: 0.1rem 0;
+}
+
+.memoryButton {
+  margin: 0 0.065rem;
+  border: none;
+  background-color: rgb(215, 215, 215);
+  height: 5.1rem;
+  width: 5.5rem;
+  cursor: pointer;
+  box-shadow: 0.1875rem 0.1875rem 0px rgb(164, 164, 164);
+}
+
+.memoryButton:hover {
+  background-color: rgb(192, 192, 192);
+  cursor: pointer;
+}
+
+.memoryButton:active {
+  background-color: skyblue;
+  cursor: grabbing;
+  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176);
+  transform: scale(0.99) translate(0.1875rem, 0.1875rem);
+  background-image: radial-gradient(
+    ellipse at 80% 80%,
+    rgba(255, 255, 255, 0.812) 0%,
+    transparent 70%
+  );
+}
+
+.memoryButton.message {
+  background-color: skyblue;
+  cursor: grabbing;
+  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176);
+  transform: scale(0.99) translate(0.1875rem, 0.1875rem);
+  background-image: radial-gradient(
+    ellipse at 80% 80%,
+    rgba(255, 255, 255, 0.812) 0%,
+    transparent 70%
+  );
+}
+
+.memoryButton.success {
+  background-color: rgb(84, 223, 163);
+  cursor: grabbing;
+  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176);
+  transform: scale(0.99) translate(0.1875rem, 0.1875rem);
+  background-image: radial-gradient(
+    ellipse at 80% 80%,
+    rgba(255, 255, 255, 0.812) 0%,
+    transparent 70%
+  );
+}
+
+.memoryButton.fail {
+  background-color: rgb(223, 96, 84);
+  cursor: grabbing;
+  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176);
+  transform: scale(0.99) translate(0.1875rem, 0.1875rem);
+  background-image: radial-gradient(
+    ellipse at 80% 80%,
+    rgba(255, 255, 255, 0.812) 0%,
+    transparent 70%
+  );
+}
+
+/* 하단 탭 */
+
+#status {
+  height: 19.5%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.status {
+  width: 8.75rem;
+  height: 4.375rem;
+  border: 0.03125rem solid white;
+  box-shadow: inset 0 0 0.125rem rgba(0, 0, 0, 0.5);
+  background-color: rgb(221, 221, 221);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.system {
+  margin: 0.25rem 0;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: 1.2rem;
+  text-align: center;
+  height: 50%;
+}
+
+#countTimer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.board {
+  margin: 0.1rem 0;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+#timeUnit {
+  margin-top: 0.2rem;
+  padding-left: 0.35rem;
+  font-size: 1.35rem;
+  font-weight: 400;
+}
+
+#lifeCount {
+  letter-spacing: 0.3rem;
+  font-size: 1.5rem;
+  height: 50%;
+}
+
+/* 점수 보드 */
+#record-container {
+  display: flex;
+  flex-direction: column;
+  height: 20rem;
+}
+
+#scoreTitle {
+  text-align: center;
+  font-size: 1.1rem;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  margin-bottom: 0.5rem;
+}
+
+#scoreList {
+  list-style-type: none;
+  padding: 0.1rem;
+  max-height: 13.5rem;
+  overflow-y: auto;
+}
+
+#scoreList:empty {
+  display: none;
+}
+
+#scoreItem {
+  background-color: #e3e2e2;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  height: 2.2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  box-shadow: 0 0 0.15rem rgba(0, 0, 0, 0.5);
+}
+
+.scoreProperty {
+  text-align: center;
+  width: 5rem;
+  padding: 0.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scoreDate {
+  text-align: center;
+  width: 7.1rem;
+  padding: 0.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.deleteButton {
+  margin-right: 0.5rem;
+  color: white;
+  background-color: rgb(210, 94, 94);
+  border: 0.05rem solid rgb(150, 69, 69);
+  border-radius: 0.25rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.deleteButton:hover {
+  cursor: pointer;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+}
+
+.deleteButton:active {
+  cursor: grab;
+  transform: scale(1);
+}
