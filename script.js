@@ -1,5 +1,5 @@
 let memoryButton = document.getElementsByClassName("memoryButton");
-const memoryArray = Array.from(memoryButton); // 유사배열객체 배열화
+const memoryArray = Array.from(memoryButton);
 
 let playButton = document.getElementById("playButton");
 let score = document.getElementById("scoreCount");
@@ -21,7 +21,14 @@ let questionArray = [];
 let repeatArray = [];
 let answerArray = [];
 
+let logoClick = document.getElementById("logo-img");
+let explainList = document.getElementById("explainList");
+
 playButton.addEventListener("click", game);
+
+logoClick.addEventListener("click", function () {
+  explainList.classList.toggle("active");
+});
 
 async function game() {
   if (play) {
@@ -58,10 +65,9 @@ async function blinkGameProcess(blinkFunction) {
   await new Promise((resolve) =>
     setTimeout(() => {
       click = true;
-      console.log(click);
       resolve();
     }, 1300)
-  ); // 이 부분은 실패 시 문제내용 재 제시, 성공 시 다음 단계 문제 제시 로직 추가하면 삭제할 것
+  );
 }
 
 function blinkAllButton() {
@@ -134,16 +140,7 @@ async function resetGame() {
         alert("최소 1자 이상의 이름을 입력해주세요.");
       }
     } while (name.trim().length === 0);
-    if (name !== null) {
-      console.log(
-        `
-      이름 : ${name}
-      날짜 : ${currentDate()}
-      최종 클리어 : ${stage === 1 ? `없음` : `${stage - 1} 단계`}
-      총합 스코어 : ${scoreCount} 점`
-      );
-      addScore(name, stage, scoreCount);
-    }
+    addScore(name, stage, scoreCount);
     alert("게임을 초기화합니다");
   } else {
     alert("게임을 초기화합니다");
@@ -154,10 +151,9 @@ async function resetGame() {
 function currentDate() {
   let currentDate = new Date();
   let year = currentDate.getFullYear();
-  let month = currentDate.getMonth() + 1; // 월은 0부터 시작하므로 1을 더하기
+  let month = currentDate.getMonth() + 1;
   let day = currentDate.getDate();
 
-  // 월과 일이 한 자리 숫자인 경우 앞에 0을 붙여 두 자리로 만들기.
   month = month < 10 ? "0" + month : month;
   day = day < 10 ? "0" + day : day;
 
@@ -166,7 +162,6 @@ function currentDate() {
 }
 
 async function countTime(stage) {
-  console.log("시간 카운팅");
   let startTime = stage + 5;
   limitTime.innerText = startTime;
 
@@ -178,8 +173,7 @@ async function countTime(stage) {
         JSON.stringify(questionArray) === JSON.stringify(answerArray)
       ) {
         clearInterval(intervalId);
-        console.log("시간 멈춤");
-        resolve(); // Promise를 해결하여 다음 단계로 진행
+        resolve();
       } else {
         limitTime.innerText--;
       }
@@ -194,10 +188,10 @@ function typeMessage(stage) {
     const typeNextCharacter = () => {
       if (index < stageMessage.length) {
         gameMessage.innerText += stageMessage[index];
-        index++; // 타이핑 이펙트
+        index++;
         setTimeout(typeNextCharacter, 100);
       } else {
-        resolve(); // 다 끝났으면 함수 종료
+        resolve();
       }
     };
     typeNextCharacter();
@@ -211,10 +205,10 @@ function deleteMessage() {
     const deleteNextCharacter = () => {
       if (index >= 0) {
         gameMessage.innerText = gameMessage.innerText.slice(0, index);
-        index--; // 딜리팅 이펙트
+        index--;
         setTimeout(deleteNextCharacter, 100);
       } else {
-        resolve(); // 다 끝났으면 함수 종료
+        resolve();
       }
     };
     deleteNextCharacter();
@@ -233,7 +227,6 @@ async function question(stage) {
   await new Promise((resolve) =>
     setTimeout(() => {
       click = true;
-      console.log("질문 출제 확인");
       resolve();
     }, stage * 150)
   );
@@ -254,7 +247,6 @@ async function repeatQuestion() {
   await new Promise((resolve) =>
     setTimeout(() => {
       click = true;
-      console.log(click);
       resolve();
     }, repeatArray.length * 150)
   );
@@ -267,12 +259,11 @@ function blinkQuestion() {
 
     questionArray.push(Number(randomButton.id));
     repeatArray.push(randomButton);
-    console.log(questionArray);
 
     randomButton.classList.add("message");
     setTimeout(() => {
       randomButton.classList.remove("message");
-      resolve(randomButton); // 반환값 지정
+      resolve(randomButton);
     }, 650);
   });
 }
@@ -280,7 +271,6 @@ function blinkQuestion() {
 // 스테이지 정답 제출 함수
 
 async function answer() {
-  console.log("정답 함수 작동");
   click = true;
   for (let i = 0; i < memoryArray.length; i++) {
     memoryArray[i].addEventListener("click", handleButtonClick);
@@ -291,7 +281,6 @@ async function answer() {
       limitTime.innerText === "0" &&
       answerArray.length !== questionArray.length
     ) {
-      console.log("제한시간 초과");
       lifeCount--;
       click = false;
       if (lifeCount === 0) {
@@ -323,9 +312,6 @@ function handleButtonClick(event) {
     const clickedButtonId = Number(event.target.id);
     answerArray.push(clickedButtonId);
 
-    console.log("Clicked button ID:", clickedButtonId);
-    console.log(answerArray);
-
     checkAnswer();
   }
 }
@@ -335,19 +321,16 @@ function compareArrays() {
   for (let i = 0; i < answerArray.length; i++) {
     if (answerArray[i] !== questionArray[i]) {
       wrongAnswer = true;
-      console.log("오답검증 : " + wrongAnswer);
       return wrongAnswer;
     }
   }
   if (parseInt(limitTime.innerText) === 0) {
     wrongAnswer = true;
-    console.log("오답검증 : " + wrongAnswer);
     return wrongAnswer;
   }
 }
 
 async function checkAnswer() {
-  console.log("정답 검증 작동");
   if (answerIndex < questionArray.length) {
     if (compareArrays()) {
       lifeCount--;
@@ -383,11 +366,9 @@ async function checkAnswer() {
       repeatArray = [];
       answerArray = [];
       let timeGap = parseInt(limitTime.innerText);
-      console.log("클리어 시간 차 : " + timeGap);
       scoreCount += 15 * timeGap;
       score.innerText = String(scoreCount).padStart(5, "0");
 
-      console.log("점수 : " + score.innerText);
       deleteMessage();
       stage++;
       await blinkGameProcess(blinkSuccess);

@@ -7,7 +7,59 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <header class="explain-container">로고 추가하고 이것저것</header>
+    <header class="explain-container">
+      <div id="logo" class="header-item">
+        <img id="logo-img" src="/assets/Logo.svg" alt="logo" />
+        <p id="clickLogo">click the logo !</p>
+      </div>
+      <ol id="explainList" class="header-item">
+        <li class="explainItem">간단한 기억력 테스트 게임입니다</li>
+        <li class="explainItem">Play 버튼을 누르면 신호 후, 시작됩니다</li>
+        <li class="explainItem">
+          순차적으로 제시되는 버튼을 기억 후, 같은 순서로 클릭하세요
+        </li>
+        <li class="explainItem">
+          잘못 누르거나 제한시간이 초과되면 라이프가 차감됩니다
+        </li>
+        <li class="explainItem">
+          3개의 라이프가 전부 차감되면 게임 오버됩니다
+        </li>
+        <li class="explainItem">
+          게임 도중, REPLAY 버튼을 누르면 현재 단계에서 게임이 중단됩니다
+        </li>
+        <li class="explainItem">
+          점수를 저장해서 보존하거나 삭제할 수 있습니다
+        </li>
+        <li class="explainItem">
+          향후, 코드 정돈 및 백엔드 분야까지 리팩토링 계획 중입니다
+        </li>
+        <li class="explainItem">즐거운 하루 되세요!</li>
+      </ol>
+      <div id="myProfile" class="header-item">
+        <a
+          class="iconBox"
+          href="https://github.com/kimD0ngjun/memory_test"
+          target="_blank"
+        >
+          <img class="icon" src="/assets/Github.svg" alt="gitHub" />
+        </a>
+        <a
+          class="iconBox"
+          href="mailto:chickentasty0112@gmail.com"
+          target="_blank"
+        >
+          <img class="icon" src="/assets/Mail.svg" alt="gmail" />
+        </a>
+        <a
+          class="iconBox"
+          href="https://instagram.com/00ngjun?utm_source=qr&igshid=MzNlNGNkZWQ4Mg=="
+          target="_blank"
+        >
+          <img class="icon" src="/assets/Instagram.svg" alt="instagram" />
+        </a>
+      </div>
+      <p id="copyright">Copyright 2024. 김동준. all rights reserved.</p>
+    </header>
 
     <div class="gamePlay-container">
       <div class="game-container">
