@@ -173,13 +173,10 @@ function addScore(name, stage, scoreCount) {
   scoreAmount.className = "scoreProperty";
 
   const deleteButton = document.createElement("button");
-  deleteButton.innerText = "🗑";
-  deleteButton.className = "deleteButton";
-
+  deleteButton.innerText = "Delete";
   deleteButton.addEventListener("click", function () {
-    console.log("버튼 클릭");
     scoreList.removeChild(scoreItem);
-  }); // 왜 삭제가 안될까아아
+  });
 
   scoreItem.appendChild(scoreName);
   scoreItem.appendChild(scoreDate);
@@ -228,7 +225,7 @@ async function countTime(stage) {
 
 function typeMessage(stage) {
   return new Promise((resolve) => {
-    let stageMessage = `${stage} 단계 시작`;
+    let stageMessage = ` ${stage} 단계 시작`;
     let index = 0;
     const typeNextCharacter = () => {
       if (index < stageMessage.length) {
