@@ -73,11 +73,53 @@ body {
 
 #logo-img {
   width: 15rem;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    cursor: grab;
+    transform: scale(1);
+  }
 }
 
 #click-logo {
   text-align: center;
   margin-top: 0.5rem;
+  animation: pulsate 4s 4s 1.5;
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(1);
+  }
+  12.5% {
+    transform: scale(1.1);
+  }
+  25% {
+    transform: scale(1);
+  }
+  37.5% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1);
+  }
+  62.5% {
+    transform: scale(1.1);
+  }
+  75% {
+    transform: scale(1);
+  }
+  87.5% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 #explainList {
