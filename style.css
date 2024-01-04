@@ -10,8 +10,6 @@ body {
   align-items: center;
 }
 
-/* 기본 픽셀 : 16px */
-
 .game-container {
   border: 0.5rem white;
   background-color: rgb(221, 221, 221);
@@ -249,8 +247,8 @@ body {
 .memoryButton:active {
   background-color: skyblue;
   cursor: grabbing;
-  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176); /* -3px / 16px = -0.1875rem */
-  transform: scale(0.99) translate(0.1875rem, 0.1875rem); /* 3px / 16px = 0.1875rem */
+  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176);
+  transform: scale(0.99) translate(0.1875rem, 0.1875rem);
   background-image: radial-gradient(
     ellipse at 80% 80%,
     rgba(255, 255, 255, 0.812) 0%,
@@ -261,8 +259,8 @@ body {
 .memoryButton.message {
   background-color: skyblue;
   cursor: grabbing;
-  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176); /* -3px / 16px = -0.1875rem */
-  transform: scale(0.99) translate(0.1875rem, 0.1875rem); /* 3px / 16px = 0.1875rem */
+  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176);
+  transform: scale(0.99) translate(0.1875rem, 0.1875rem);
   background-image: radial-gradient(
     ellipse at 80% 80%,
     rgba(255, 255, 255, 0.812) 0%,
@@ -273,8 +271,8 @@ body {
 .memoryButton.success {
   background-color: rgb(84, 223, 163);
   cursor: grabbing;
-  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176); /* -3px / 16px = -0.1875rem */
-  transform: scale(0.99) translate(0.1875rem, 0.1875rem); /* 3px / 16px = 0.1875rem */
+  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176);
+  transform: scale(0.99) translate(0.1875rem, 0.1875rem);
   background-image: radial-gradient(
     ellipse at 80% 80%,
     rgba(255, 255, 255, 0.812) 0%,
@@ -285,8 +283,8 @@ body {
 .memoryButton.fail {
   background-color: rgb(223, 96, 84);
   cursor: grabbing;
-  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176); /* -3px / 16px = -0.1875rem */
-  transform: scale(0.99) translate(0.1875rem, 0.1875rem); /* 3px / 16px = 0.1875rem */
+  box-shadow: -0.1875rem -0.1875rem 0px rgb(100, 155, 176);
+  transform: scale(0.99) translate(0.1875rem, 0.1875rem);
   background-image: radial-gradient(
     ellipse at 80% 80%,
     rgba(255, 255, 255, 0.812) 0%,
@@ -307,7 +305,7 @@ body {
   width: 8.75rem;
   height: 4.375rem;
   border: 0.03125rem solid white;
-  box-shadow: inset 0 0 0.125rem rgba(0, 0, 0, 0.5); /* 2px / 16px = 0.125rem */
+  box-shadow: inset 0 0 0.125rem rgba(0, 0, 0, 0.5);
   background-color: rgb(221, 221, 221);
   display: flex;
   flex-direction: column;
@@ -364,7 +362,6 @@ body {
 }
 
 #scoreList {
-  /* border: 0.05rem solid purple; */
   list-style-type: none;
   padding: 0.1rem;
   max-height: 13.5rem;
@@ -377,7 +374,6 @@ body {
 
 #scoreItem {
   background-color: #e3e2e2;
-  /* border: 0.05rem solid purple; */
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
   height: 2.2rem;
@@ -385,11 +381,11 @@ body {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  box-shadow: 0 0 0.15rem rgba(0, 0, 0, 0.5);
 }
 
 .scoreProperty {
   text-align: center;
-  /* border: 0.05rem solid purple; */
   width: 5rem;
   padding: 0.1rem;
   white-space: nowrap;
@@ -399,7 +395,6 @@ body {
 
 .scoreDate {
   text-align: center;
-  /* border: 0.05rem solid purple; */
   width: 7.1rem;
   padding: 0.1rem;
   white-space: nowrap;
