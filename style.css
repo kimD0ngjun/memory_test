@@ -41,17 +41,6 @@ body {
   padding: 1rem;
 }
 
-#explainList {
-  list-style-type: circle;
-  padding: 0.7rem;
-}
-
-.explainItem {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  margin-bottom: 1rem;
-}
-
 .scoreRecord-container {
   height: 100vh;
   width: 33.333333%;
@@ -73,6 +62,27 @@ body {
 
 #logo-img {
   width: 15rem;
+}
+
+#explainList {
+  list-style-type: circle;
+  padding: 0.7rem;
+}
+
+.explainItem {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  margin-bottom: 1rem;
+}
+
+#myProfile {
+  display: flex;
+  flex-direction: row;
+}
+
+.icon {
+  width: 3.5rem;
+  height: 3.5rem;
 }
 
 /* 상단 탭 */
