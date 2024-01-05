@@ -8,7 +8,6 @@ let play = false;
 let stage = 1;
 let answerIndex = 0;
 let click = true;
-let wrongAnswer;
 
 let life = document.getElementById("lifeCount");
 let lifeCount = 3;
@@ -219,7 +218,6 @@ function deleteMessage() {
 
 async function question(stage) {
   click = false;
-  wrongAnswer = false;
   for (let i = 0; i < stage; i++) {
     await blinkQuestion();
     await new Promise((resolve) => setTimeout(resolve, 250));
@@ -320,13 +318,11 @@ function handleButtonClick(event) {
 function compareArrays() {
   for (let i = 0; i < answerArray.length; i++) {
     if (answerArray[i] !== questionArray[i]) {
-      wrongAnswer = true;
-      return wrongAnswer;
+      return true;
     }
   }
   if (parseInt(limitTime.innerText) === 0) {
-    wrongAnswer = true;
-    return wrongAnswer;
+    return true;
   }
 }
 
