@@ -182,7 +182,7 @@ async function countTime(stage) {
 
 function typeMessage(stage) {
   return new Promise((resolve) => {
-    let stageMessage = ` stage ${stage} `;
+    let stageMessage = ` Stage ${stage} `;
     let index = 0;
     const typeNextCharacter = () => {
       if (index < stageMessage.length) {
@@ -214,12 +214,12 @@ function typeStartSignal(message) {
   });
 }
 
-function deleteMessage() {
+function deleteMessage(standardIndex) {
   return new Promise((resolve) => {
     const messageLength = gameMessage.innerText.length;
     let index = messageLength - 1;
     const deleteNextCharacter = () => {
-      if (index >= 0) {
+      if (index >= standardIndex) {
         gameMessage.innerText = gameMessage.innerText.slice(0, index);
         index--;
         setTimeout(deleteNextCharacter, 100);
@@ -300,6 +300,7 @@ async function answer() {
       if (lifeCount === 0) {
         life.innerText = " ";
       }
+      deleteMessage(9);
       life.innerText = "❤️".repeat(lifeCount);
       await blinkGameProcess(blinkFail);
 
@@ -310,6 +311,7 @@ async function answer() {
       await new Promise((resolve) => setTimeout(resolve, 150));
       answerArray = [];
       await repeatQuestion();
+      await typeStartSignal("다시 도전!");
       limitTime.innerText = `${questionArray.length + 5}`;
       rightAnswer = false;
       correctAnswer = false;
@@ -350,6 +352,7 @@ async function checkAnswer() {
       if (lifeCount === 0) {
         life.innerText = " ";
       }
+      deleteMessage(9);
       life.innerText = "❤️".repeat(lifeCount);
       await blinkGameProcess(blinkFail);
 
@@ -382,7 +385,7 @@ async function checkAnswer() {
       scoreCount += 15 * timeGap;
       score.innerText = String(scoreCount).padStart(5, "0");
 
-      deleteMessage();
+      deleteMessage(0);
       stage++;
       await blinkGameProcess(blinkSuccess);
 
