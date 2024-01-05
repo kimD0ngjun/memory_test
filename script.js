@@ -13,6 +13,7 @@ let life = document.getElementById("lifeCount");
 let lifeCount = 3;
 
 let limitTime = document.getElementById("timeCount");
+let timeUnit = document.getElementById("timeUnit");
 
 let gameMessage = document.getElementById("gameMessage");
 
@@ -57,6 +58,8 @@ async function stagePlay(stage) {
 async function blinkGameProcess(blinkFunction) {
   const delays = [300, 500, 500];
   click = false;
+  limitTime.classList.remove("countStart");
+  timeUnit.classList.remove("countStart");
 
   for (let i = 0; i < 3; i++) {
     await new Promise((resolve) => setTimeout(resolve, delays[i]));
@@ -163,6 +166,8 @@ function currentDate() {
 async function countTime(stage) {
   let startTime = stage + 5;
   limitTime.innerText = startTime;
+  limitTime.classList.add("countStart");
+  timeUnit.classList.add("countStart");
 
   await new Promise((resolve) => {
     let intervalId = setInterval(function () {
