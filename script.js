@@ -47,6 +47,7 @@ async function stagePlay(stage) {
     }, 500)
   );
   await question(stage);
+  await typeStartSignal("시작합니다!");
   countTime(stage);
   answer();
 }
@@ -63,7 +64,6 @@ async function blinkGameProcess(blinkFunction) {
   }
   await new Promise((resolve) =>
     setTimeout(() => {
-      click = true;
       resolve();
     }, 1300)
   );
@@ -182,7 +182,24 @@ async function countTime(stage) {
 
 function typeMessage(stage) {
   return new Promise((resolve) => {
-    let stageMessage = ` ${stage} 단계 시작`;
+    let stageMessage = ` stage ${stage} `;
+    let index = 0;
+    const typeNextCharacter = () => {
+      if (index < stageMessage.length) {
+        gameMessage.innerText += stageMessage[index];
+        index++;
+        setTimeout(typeNextCharacter, 100);
+      } else {
+        resolve();
+      }
+    };
+    typeNextCharacter();
+  });
+}
+
+function typeStartSignal(message) {
+  return new Promise((resolve) => {
+    let stageMessage = message;
     let index = 0;
     const typeNextCharacter = () => {
       if (index < stageMessage.length) {
@@ -269,7 +286,6 @@ function blinkQuestion() {
 // 스테이지 정답 제출 함수
 
 async function answer() {
-  click = true;
   for (let i = 0; i < memoryArray.length; i++) {
     memoryArray[i].addEventListener("click", handleButtonClick);
     memoryArray[i].addEventListener("click", compareArrays);
@@ -344,6 +360,7 @@ async function checkAnswer() {
       await new Promise((resolve) => setTimeout(resolve, 150));
       answerArray = [];
       await repeatQuestion();
+      await typeStartSignal("다시 도전!");
       limitTime.innerText = `${questionArray.length + 5}`;
       rightAnswer = false;
       correctAnswer = false;
